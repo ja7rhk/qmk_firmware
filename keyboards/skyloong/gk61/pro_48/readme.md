@@ -1,4 +1,4 @@
-# GK61 PRO 48
+# GK61 PRO
 
 ![GK61 PRO](https://i.imgur.com/DTetyVLh.jpg)
 
@@ -10,17 +10,17 @@
 
 The following is the QMK Firmware for the Destop 60% keylayout -  designed in Dongguan Jizhi Electronic Technology Co., Ltd
 
-* Keyboard Maintainer: [NaturalZh](https://github.com/NaturalZh)
-* Hardware Supported: DestopPCB for Skyloong keylayout 60%, STM32F103C8T6
+* Keyboard Maintainer: [linlin012](https://github.com/linlin012)
+* Hardware Supported: DestopPCB for Skyloong keylayout 60%, STM32F103R8T6
 * Hardware Availability: http://www.skyloong.com.cn  https://skyloong.vip
 
 Make example for this keyboard (after setting up your build environment):
 
-    make skyloong/gk61/pro_48:default
+    make skyloong/gk61/pro_68:default
 
 Flashing example for this keyboard:
 
-    make skyloong/gk61/pro_48:default:flash
+    make skyloong/gk61/pro_68:default:flash
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
