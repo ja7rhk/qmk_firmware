@@ -19,19 +19,26 @@
  */
 /*
  * Modified to use with Chibios on STM32 platform.
- * ** koseki(2024.4.12)
+ * ** koseki(2024.4.24)
  */
 
 #include QMK_KEYBOARD_H
 #include "nicola.h"
-#include "key_duration.h"
+//**koseki(2024.4.24)
+//#include "key_duration.h"
+#include <ch.h>
+//**
 #include <timer.h>
 
 static bool is_nicola = false; // 親指シフトがオンかオフか
 static uint8_t nicola_layer = 0; // レイヤー番号
 static uint8_t n_modifier = 0; // 押しているmodifierキーの数
+//**koseki(2024.4.24)
+static virtual_timer_t keypress_timer;
+//**
 
-#define TIMEOUT_THRESHOLD (150)
+//#define TIMEOUT_THRESHOLD (150)
+#define TIMEOUT_THRESHOLD (200)
 #define OVERLAP_THRESHOLD (20)
 
 typedef enum {
@@ -53,8 +60,20 @@ static int key_process_guard = 0;
 /*
  * Keyboard timer callback.
  */
+//**koseki(2024.4.24)
 //void keypress_timer_expired(void);
-void keypress_timer_expired(void);
+//static void keypress_timer_expired(void);
+
+void keypress_timer_init(void) {
+    chVTObjectInit(&keypress_timer);
+}
+
+void keypress_timer_start(uint16_t count) {
+    chSysLockFromISR();
+    //chVTSet(&keypress_timer, TIME_MS2I(count), (vtfunc_t)keypress_timer_expired, NULL);
+    chSysUnlockFromISR();
+}
+//**
 
 // if we have independent timeout routine, no need to check timeout on key press
 #ifdef TIMEOUT_INTERRUPT
@@ -66,7 +85,9 @@ void keypress_timer_expired(void);
 // 親指シフトのレイヤー、シフトキーを設定
 void set_nicola(uint8_t layer) {
   nicola_layer = layer;
-  keypress_timer_init((vtfunc_t)keypress_timer_expired);
+#ifdef TIMEOUT_INTERRUPT
+  keypress_timer_init();
+#endif
 }
 
 // 親指シフトをオンオフ
@@ -361,7 +382,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         nicola_m_key = keycode;
         nicola_m_time = curr_time;
         //keypress_timer_start(TIMEOUT_THRESHOLD * 16);
-        //keypress_timer_start(TIMEOUT_THRESHOLD);
+        keypress_timer_start(TIMEOUT_THRESHOLD);
         cont_process = false;
     } else if(keycode == NG_SHFTL || keycode == NG_SHFTR) {
         // O key
@@ -415,7 +436,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         nicola_o_key = keycode;
         nicola_o_time = curr_time;
         //keypress_timer_start(TIMEOUT_THRESHOLD * 16);
-        //keypress_timer_start(TIMEOUT_THRESHOLD);
+        keypress_timer_start(TIMEOUT_THRESHOLD);
         cont_process = false;
     } else {
         // その他のキーが押された
@@ -504,7 +525,8 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
   return cont_process;
 }
 
-void keypress_timer_expired(void) {
+/*
+static void keypress_timer_expired(void) {
     if(!key_process_guard) {
         switch(nicola_int_state) {
             case NICOLA_STATE_S1_INIT:
@@ -525,3 +547,4 @@ void keypress_timer_expired(void) {
         nicola_int_state = NICOLA_STATE_S1_INIT;
     }
 }
+*/
