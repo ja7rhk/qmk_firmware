@@ -5,7 +5,7 @@
 「」や『』・などは直接出力できませんから、MS-IMEなどの変換機能で確定します。
 
 ## 配列
-![Layout](gk61_pro_nicola_layout.png "Layout")
+![Layout](assets/gk61_pro_nicola_layout.png "Layout")
 
 ## 情報元
 * https://github.com/sadaoikebe/qmk_firmware/ をベースにNicolaを実装しています。
