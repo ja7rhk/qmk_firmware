@@ -14,6 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
+ * Modified to use with Chibios on STM32 platform.
+ * ** koseki(2024.4.25)
+ */
 
 void nicola_type(void);
 void nicola_clear(void);
@@ -26,6 +30,10 @@ bool nicola_state(void);
 
 bool process_nicola(uint16_t, keyrecord_t *);
 void set_nicola(uint8_t);
+
+//koseki(2024.4.25)
+void timer_tick(uint32_t);
+//**
 
 typedef enum nicola_keycodes {
   NG_TOP = SAFE_RANGE,

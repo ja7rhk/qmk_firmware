@@ -19,23 +19,17 @@
  */
 /*
  * Modified to use with Chibios on STM32 platform.
- * ** koseki(2024.4.24)
+ * ** koseki(2024.4.25)
  */
 
 #include QMK_KEYBOARD_H
 #include "nicola.h"
-//**koseki(2024.4.24)
 //#include "key_duration.h"
-#include <ch.h>
-//**
 #include <timer.h>
 
 static bool is_nicola = false; // 親指シフトがオンかオフか
 static uint8_t nicola_layer = 0; // レイヤー番号
 static uint8_t n_modifier = 0; // 押しているmodifierキーの数
-//**koseki(2024.4.24)
-static virtual_timer_t keypress_timer;
-//**
 
 //#define TIMEOUT_THRESHOLD (150)
 #define TIMEOUT_THRESHOLD (200)
@@ -52,26 +46,20 @@ typedef enum {
 static nicola_state_t nicola_int_state = NICOLA_STATE_S1_INIT;
 static int nicola_m_key;
 static int nicola_o_key;
-static uint16_t nicola_m_time;
-static uint16_t nicola_o_time;
+static uint32_t nicola_m_time;
+static uint32_t nicola_o_time;
 
 static int key_process_guard = 0;
+void keypress_timer_expired(void);
 
-/*
- * Keyboard timer callback.
- */
-//**koseki(2024.4.24)
-//void keypress_timer_expired(void);
-//static void keypress_timer_expired(void);
+//**koseki(2024.4.25)
+static uint32_t event_time = 0;
 
-void keypress_timer_init(void) {
-    chVTObjectInit(&keypress_timer);
-}
-
-void keypress_timer_start(uint16_t count) {
-    chSysLockFromISR();
-    //chVTSet(&keypress_timer, TIME_MS2I(count), (vtfunc_t)keypress_timer_expired, NULL);
-    chSysUnlockFromISR();
+void timer_tick(uint32_t now) {
+	if (event_time != 0 && (now > event_time)) {
+		event_time = 0;
+		keypress_timer_expired();
+	}
 }
 //**
 
@@ -86,7 +74,7 @@ void keypress_timer_start(uint16_t count) {
 void set_nicola(uint8_t layer) {
   nicola_layer = layer;
 #ifdef TIMEOUT_INTERRUPT
-  keypress_timer_init();
+  //keypress_timer_init(keypress_timer_expired);
 #endif
 }
 
@@ -204,6 +192,9 @@ void nicola_m_type(void) {
         case NG_DOT : send_string("ho"); break;
         case NG_SLSH: send_string("/" ); break;
     }
+    //**koseki(2024.4.25)
+    event_time = 0;
+    //**
 }
 
 void nicola_o_type(void) {
@@ -212,6 +203,9 @@ void nicola_o_type(void) {
     } else if(nicola_o_key == NG_SHFTR) {
         send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
     }
+    //**koseki(2024.4.25)
+    event_time = 0;
+    //**
 }
 
 void nicola_om_type(void) {
@@ -320,6 +314,9 @@ void nicola_om_type(void) {
             case NG_SLSH: send_string("xo"); break;
         }
     }
+    //**koseki(2024.4.25)
+    event_time = 0;
+    //**
 }
 
 // 親指シフトの入力処理
@@ -327,7 +324,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
   key_process_guard = 1; // timeout entrance guard
   bool cont_process = true;
   // if (!is_nicola || n_modifier > 0) return true;
-  uint16_t curr_time = timer_read();
+  uint32_t curr_time = timer_read32();
 
   if (record->event.pressed) {
     if(NG_M_TOP <= keycode && keycode <= NG_M_BOTTOM) {
@@ -360,8 +357,8 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
               nicola_int_state = NICOLA_STATE_S2_M;
             } else {
               // combo => three key judge
-              uint16_t t1 = nicola_o_time - nicola_m_time;
-              uint16_t t2 = curr_time - nicola_o_time;
+              uint32_t t1 = nicola_o_time - nicola_m_time;
+              uint32_t t2 = curr_time - nicola_o_time;
               if(t1 < t2) {
                 // the O key in between is combo with the leading M key
                 nicola_om_type();
@@ -381,8 +378,10 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         }
         nicola_m_key = keycode;
         nicola_m_time = curr_time;
+        //koseki(2024.4.25)
         //keypress_timer_start(TIMEOUT_THRESHOLD * 16);
-        keypress_timer_start(TIMEOUT_THRESHOLD);
+        event_time = curr_time + TIMEOUT_THRESHOLD;
+        //**
         cont_process = false;
     } else if(keycode == NG_SHFTL || keycode == NG_SHFTR) {
         // O key
@@ -419,8 +418,8 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
               nicola_int_state = NICOLA_STATE_S3_O;
             } else {
               // combo => three key judge
-              uint16_t t1 = nicola_m_time - nicola_o_time;
-              uint16_t t2 = curr_time - nicola_m_time;
+              uint32_t t1 = nicola_m_time - nicola_o_time;
+              uint32_t t2 = curr_time - nicola_m_time;
               if(t1 < t2) {
                 // the M key in between is combo with the leading O key
                 nicola_om_type();
@@ -435,8 +434,10 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         }
         nicola_o_key = keycode;
         nicola_o_time = curr_time;
+        //koseki(2024.4.25)
         //keypress_timer_start(TIMEOUT_THRESHOLD * 16);
-        keypress_timer_start(TIMEOUT_THRESHOLD);
+        event_time = curr_time + TIMEOUT_THRESHOLD;
+        //**
         cont_process = false;
     } else {
         // その他のキーが押された
@@ -525,8 +526,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
   return cont_process;
 }
 
-/*
-static void keypress_timer_expired(void) {
+void keypress_timer_expired(void) {
     if(!key_process_guard) {
         switch(nicola_int_state) {
             case NICOLA_STATE_S1_INIT:
@@ -547,4 +547,3 @@ static void keypress_timer_expired(void) {
         nicola_int_state = NICOLA_STATE_S1_INIT;
     }
 }
-*/
