@@ -93,8 +93,8 @@ void matrix_init_user(void) {
   // NICOLA親指シフト
 }
 
-// Initialize the 13th LED
 /*
+// Initialize the 13th LED
 void keyboard_post_init_user(void) {
     for(int i=0; i<RGBLED_NUM; ++i) {
         rgblight_setrgb_at(0, 0, 0, i);
@@ -104,6 +104,26 @@ void keyboard_post_init_user(void) {
 }
 */
 
+// IMEを監視する"observe_ime"を使用する場合、Num Lockでnicola on/offする。
+// キーボード単体でnicola on/offを制御する場合はコメントアウトする。
+#define USE_OBSERVE_IME
+
+// This functions will be called when one of those 5 LEDs changes state.
+// Num Lock, Caps Lock, Scroll Lock, Compose, Kan
+#ifdef USE_OBSERVE_IME
+bool led_update_kb(led_t led_state) {
+
+    bool res = led_update_user(led_state);
+    if(res) {
+        if (led_state.num_lock)
+            nicola_on();
+        else
+            nicola_off();
+    }
+    return res;
+};
+#endif
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   switch (keycode) {
@@ -112,15 +132,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             //send_string(SS_TAP(X_CAPS_LOCK)); // Win MS-IME
             send_string(SS_LSFT(SS_TAP(X_CAPS_LOCK))); // Win MS-IME
+        #ifndef USE_OBSERVE_IME
             nicola_off();
+        #endif
         }
         return false;
         break;
     // 英数モードのとき左親指キー(F14)で、nicola mode オン
     case KC_F14:
         if (record->event.pressed) {
-            nicola_on();
             send_string(SS_TAP(X_F14));
+        #ifndef USE_OBSERVE_IME
+            nicola_on();
+        #endif
         }
         return false;
         break;
