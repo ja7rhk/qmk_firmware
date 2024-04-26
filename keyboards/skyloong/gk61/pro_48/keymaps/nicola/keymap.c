@@ -94,15 +94,15 @@ void matrix_init_user(void) {
 }
 
 // Initialize the 13th LED
+/*
 void keyboard_post_init_user(void) {
-    /*
     for(int i=0; i<RGBLED_NUM; ++i) {
         rgblight_setrgb_at(0, 0, 0, i);
     }
-    rgblight_sethsv_at(170,255,40, RGBLED_NUM-1); // the last LED = BLUE (NICOLA off)
-    */
+    rgblight_setrgb_at(170,255,40, RGBLED_NUM-1); // the last LED = BLUE (NICOLA off)
     nicola_off();
 }
+*/
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
