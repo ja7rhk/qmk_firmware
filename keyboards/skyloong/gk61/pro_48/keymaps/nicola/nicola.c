@@ -31,8 +31,8 @@ static bool is_nicola = false; // 親指シフトがオンかオフか
 static uint8_t nicola_layer = 0; // レイヤー番号
 static uint8_t n_modifier = 0; // 押しているmodifierキーの数
 
-//#define TIMEOUT_THRESHOLD (150)
-#define TIMEOUT_THRESHOLD (200)
+#define TIMEOUT_THRESHOLD (150)
+//#define TIMEOUT_THRESHOLD (200)
 #define OVERLAP_THRESHOLD (20)
 
 typedef enum {
@@ -192,9 +192,6 @@ void nicola_m_type(void) {
         case NG_DOT : send_string("ho"); break;
         case NG_SLSH: send_string("/" ); break;
     }
-    //**koseki(2024.4.25)
-    event_time = 0;
-    //**
 }
 
 void nicola_o_type(void) {
@@ -203,9 +200,6 @@ void nicola_o_type(void) {
     } else if(nicola_o_key == NG_SHFTR) {
         send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
     }
-    //**koseki(2024.4.25)
-    event_time = 0;
-    //**
 }
 
 void nicola_om_type(void) {
@@ -314,9 +308,6 @@ void nicola_om_type(void) {
             case NG_SLSH: send_string("xo"); break;
         }
     }
-    //**koseki(2024.4.25)
-    event_time = 0;
-    //**
 }
 
 // 親指シフトの入力処理
