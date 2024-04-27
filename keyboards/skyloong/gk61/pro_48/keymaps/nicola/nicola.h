@@ -94,6 +94,7 @@ typedef enum nicola_keycodes {
   NG_SHFTR,
 
   NG_BOTTOM = NG_SHFTR,
+
 } NGKEYS;
 
 #define NG_SAFE_RANGE (NG_BOTTOM+1)

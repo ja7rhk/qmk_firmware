@@ -27,9 +27,9 @@
 //#include "key_duration.h"
 #include <timer.h>
 
-static bool is_nicola = false; // 親指シフトがオンかオフか
-static uint8_t nicola_layer = 0; // レイヤー番号
-static uint8_t n_modifier = 0; // 押しているmodifierキーの数
+static bool is_nicola = false;      // 親指シフトがオンかオフか
+static uint8_t nicola_layer = 0;    // レイヤー番号
+static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 
 #define TIMEOUT_THRESHOLD (150)
 //#define TIMEOUT_THRESHOLD (200)
@@ -104,93 +104,100 @@ bool nicola_state(void) {
 
 // バッファをクリアする
 void nicola_clear(void) {
-  nicola_int_state = NICOLA_STATE_S1_INIT;
-  key_process_guard = 0;
+    nicola_int_state = NICOLA_STATE_S1_INIT;
+    key_process_guard = 0;
+    //**koseki(2024.4.27)
+    n_modifier = 0;
 }
 
 // 入力モードか編集モードかを確認する
 void nicola_mode(uint16_t keycode, keyrecord_t *record) {
-  if (!is_nicola) return;
+    if (!is_nicola) return;
 
-  // modifierが押されたらレイヤーをオフ
-  switch (keycode) {
-    case KC_LCTL:
-    case KC_LSFT:
-    case KC_LALT:
-    case KC_LGUI:
-    case KC_RCTL:
-    case KC_RSFT:
-    case KC_RALT:
-    case KC_RGUI:
-      if (record->event.pressed) {
-        if(n_modifier == 0) {
-          layer_off(nicola_layer);
-        }
-        n_modifier++;
-      } else {
-        n_modifier--;
-        if (n_modifier == 0) {
-          layer_on(nicola_layer);
-        }
-      }
-      break;
-  }
+    //**koseki(2024.4.27)
+    if (n_modifier > 3)
+        n_modifier = 0;
 
+    // modifierが押されたらレイヤーをオフ
+    switch (keycode) {
+        case KC_LCTL:
+        case KC_LSFT:
+        case KC_LALT:
+        case KC_LGUI:
+        case KC_RCTL:
+        case KC_RSFT:
+        case KC_RALT:
+        case KC_RGUI:
+            if (record->event.pressed) {
+                if(n_modifier == 0) {
+                    layer_off(nicola_layer);
+                }
+                n_modifier++;
+            } else {
+                n_modifier--;
+                if (n_modifier == 0) {
+                    layer_on(nicola_layer);
+                }
+            }
+            break;
+    }
 }
 
 #define SS_ALNUM(x) SS_TAP(X_CAPSLOCK) x SS_TAP(X_CAPSLOCK)
 
 void nicola_m_type(void) {
-    switch(nicola_m_key) {
-        case NG_1   : send_string("1" ); break;
-        case NG_2   : send_string("2" ); break;
-        case NG_3   : send_string("3" ); break;
-        case NG_4   : send_string("4" ); break;
-        case NG_5   : send_string("5" ); break;
-        case NG_6   : send_string("6" ); break;
-        case NG_7   : send_string("7" ); break;
-        case NG_8   : send_string("8" ); break;
-        case NG_9   : send_string("9" ); break;
-        case NG_0   : send_string("0" ); break;
-        case NG_MINS: send_string("-" ); break;
-        case NG_EQL : send_string("=" ); break;
+    if (n_modifier == 0) {
+        switch(nicola_m_key) {
+            case NG_1   : send_string("1" ); break;
+            case NG_2   : send_string("2" ); break;
+            case NG_3   : send_string("3" ); break;
+            case NG_4   : send_string("4" ); break;
+            case NG_5   : send_string("5" ); break;
+            case NG_6   : send_string("6" ); break;
+            case NG_7   : send_string("7" ); break;
+            case NG_8   : send_string("8" ); break;
+            case NG_9   : send_string("9" ); break;
+            case NG_0   : send_string("0" ); break;
+            case NG_MINS: send_string("-" ); break;
+            case NG_EQL : send_string("=" ); break;
 
-        case NG_Q   : send_string("." ); break;     //ピリオドと句点は区別できない
-        case NG_W   : send_string("ka"); break;
-        case NG_E   : send_string("ta"); break;
-        case NG_R   : send_string("ko"); break;
-        case NG_T   : send_string("sa"); break;
-        case NG_Y   : send_string("ra"); break;
-        case NG_U   : send_string("ti"); break;
-        case NG_I   : send_string("ku"); break;
-        case NG_O   : send_string("tu"); break;
-        case NG_P   : send_string("," ); break;     // カンマと読点も区別できない
-        case NG_LBRC: send_string("," ); break;     // カンマと読点も区別できない
-        case NG_RBRC:                    break;
-        case NG_BSLS: send_string("\\"); break;     // 円記号"\"を送る
+            case NG_Q   : send_string("." ); break;     //ピリオドと句点は区別できない
+            case NG_W   : send_string("ka"); break;
+            case NG_E   : send_string("ta"); break;
+            case NG_R   : send_string("ko"); break;
+            case NG_T   : send_string("sa"); break;
+            case NG_Y   : send_string("ra"); break;
+            case NG_U   : send_string("ti"); break;
+            case NG_I   : send_string("ku"); break;
+            case NG_O   : send_string("tu"); break;
+            case NG_P   : send_string("," ); break;     // カンマと読点も区別できない
+            case NG_LBRC: send_string("," ); break;     // カンマと読点も区別できない
+            case NG_RBRC:                    break;
+            case NG_BSLS: send_string("\\"); break;     // 円記号"\"を送る
 
-        case NG_A   : send_string("u" ); break;
-        case NG_S   : send_string("si"); break;
-        case NG_D   : send_string("te"); break;
-        case NG_F   : send_string("ke"); break;
-        case NG_G   : send_string("se"); break;
-        case NG_H   : send_string("ha"); break;
-        case NG_J   : send_string("to"); break;
-        case NG_K   : send_string("ki"); break;
-        case NG_L   : send_string("i" ); break;
-        case NG_SCLN: send_string("nn"); break;
-        case NG_QUOT:                  ; break;
+            case NG_A   : send_string("u" ); break;
+            case NG_S   : send_string("si"); break;
+            case NG_D   : send_string("te"); break;
+            case NG_F   : send_string("ke"); break;
+            case NG_G   : send_string("se"); break;
+            case NG_H   : send_string("ha"); break;
+            case NG_J   : send_string("to"); break;
+            case NG_K   : send_string("ki"); break;
+            case NG_L   : send_string("i" ); break;
+            case NG_SCLN: send_string("nn"); break;
+            case NG_QUOT:                  ; break;
 
-        case NG_Z   : send_string("." ); break;     //ピリオドと句点は区別できない
-        case NG_X   : send_string("hi"); break;
-        case NG_C   : send_string("su"); break;
-        case NG_V   : send_string("hu"); break;
-        case NG_B   : send_string("he"); break;
-        case NG_N   : send_string("me"); break;
-        case NG_M   : send_string("so"); break;
-        case NG_COMM: send_string("ne"); break;
-        case NG_DOT : send_string("ho"); break;
-        case NG_SLSH: send_string("/" ); break;
+            case NG_Z   : send_string("." ); break;     //ピリオドと句点は区別できない
+            case NG_X   : send_string("hi"); break;
+            case NG_C   : send_string("su"); break;
+            case NG_V   : send_string("hu"); break;
+            case NG_B   : send_string("he"); break;
+            case NG_N   : send_string("me"); break;
+            case NG_M   : send_string("so"); break;
+            case NG_COMM: send_string("ne"); break;
+            case NG_DOT : send_string("ho"); break;
+            case NG_SLSH: send_string("/" ); break;
+        }
     }
 }
 
@@ -213,8 +220,8 @@ void nicola_om_type(void) {
             case NG_6   : send_string("<"); break;      // <
             case NG_7   : send_string(">"); break;      // >
             case NG_8   : send_string("*"); break;      // *
-            case NG_9   : send_string("*"); break;      // (
-            case NG_0   : send_string("("); break;      // )
+            case NG_9   : send_string("("); break;      // (
+            case NG_0   : send_string(")"); break;      // )
             case NG_MINS: send_string("_"); break;      // _
             case NG_EQL : send_string("+"); break;      // +
 
@@ -430,6 +437,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         event_time = curr_time + TIMEOUT_THRESHOLD;
         //**
         cont_process = false;
+
     } else {
         // その他のキーが押された
         switch(nicola_int_state) {

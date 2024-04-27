@@ -12,9 +12,9 @@
 // entirely and just use numbers.
 enum keymap_layers {
   _QWERTY = 0,
-// NICOLA親指シフト
-  _NICOLA, // NICOLA親指シフト入力レイヤー
-// NICOLA親指シフト
+// NICOLA親指シフト入力レイヤー
+  _NICOLA,
+// FUNCTION
   _FUNC
 };
 
@@ -72,7 +72,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,      _______,  _______,  _______,  _______,   _______,    _______,  _______,  _______,  KC_PGDN,   _______,            _______,
         _______,      _______,  _______,            KC_TAB,    _______,    _______,            KC_F15,   _______,   _______,  _______,            _______
     )
-
 };
 
 #if defined(ENCODER_MAP_ENABLE)
