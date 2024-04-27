@@ -7,11 +7,14 @@
 ## 配列
 ![Layout](assets/gk61_pro_nicola_layout.png "Layout")
 
-## Nicola のオンとオフ
-本キーボードはF14でMS-IME側"IME on"、CAPSLOCKで"IME off"に切り替えることを想定しています。  
-hoboNicolaで使用している"observe_ime"はIMEの状態からキーボードにNum Lockで返します。  
-キーボードではNum Lockの状態でNicolaモードを切り換えます。  
-こうすることで、Windowsのアプリ毎のIME状態がキーボードに反映されるので、いわゆるモードずれを気にする必要がありません。  
+## Nicolaモードの制御
+本キーボードはhoboNicolaで使用している"observe_ime"を使うことを想定しています。 
+Windowsのアプリ毎のIME状態がキーボードに反映されるので、いわゆるモードずれを気にする必要がありません。   
+
+(1) F14でMS-IME側"IME on"、CAPSLOCKで"IME off"に切り替える。  
+(2) "observe_ime"はIMEの状態からキーボードにNum Lockで返す。  
+(3) キーボードではNum Lockの状態でNicolaモードを切り換える。  
+
 ※この機能を利用しない場合はkeymap.cの#define USE_OBSERVE_IMEをコメントアウトして下さい。  
 
 ## 情報元
