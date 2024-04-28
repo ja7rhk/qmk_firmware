@@ -32,23 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Alt│App│Ctl│   │Mo1|
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
-	/*
-    [0] = LAYOUT_all(
-         KC_ESC,     KC_1,     KC_2,     KC_3,     KC_4,     KC_5,        KC_6,     KC_7,       KC_8,     KC_9,        KC_0,     KC_MINS,   KC_EQL,   KC_BSPC,
-         KC_TAB,     KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,        KC_Y,     KC_U,       KC_I,     KC_O,        KC_P,     KC_LBRC,  KC_RBRC,   KC_BSLS,
-        KC_CAPS,     KC_A,     KC_S,     KC_D,     KC_F,     KC_G,        KC_H,     KC_J,       KC_K,     KC_L,     KC_SCLN,     KC_QUOT,              KC_ENT,
-        KC_LSFT,     KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,        KC_N,     KC_M,    KC_COMM,   KC_DOT,     KC_SLSH,               KC_RSFT,
-        KC_LCTL,  KC_LGUI,  KC_LALT,             KC_SPC,   KC_SPC,     KC_MUTE,               KC_SPC,  KC_RALT,      KC_APP,     KC_RCTL,               MO(1)
-    ),
 
-    [1] = LAYOUT_all(
-        KC_GRV,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,       KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   _______,
-        _______,  RGB_TOG,  _______,  _______,  _______,  _______,     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,     _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  _______,     _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  _______,            _______,  _______,     _______,            _______,  _______,  _______,  _______,            _______
-    )
-	*/
     [_QWERTY] = LAYOUT_all(
         KC_ESC,       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,        KC_6,     KC_7,    KC_8,     KC_9,      KC_0,      KC_MINS,  KC_EQL,   KC_BSPC,
         KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,        KC_Y,     KC_U,    KC_I,     KC_O,      KC_P,      KC_LBRC,  KC_RBRC,  KC_BSLS,
@@ -76,10 +60,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-	/*
-    [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [1] = { ENCODER_CCW_CW(RGB_HUD, RGB_HUI) }
-	*/
     [_QWERTY] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
     [_NICOLA] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
     [_FUNC] =   { ENCODER_CCW_CW(KC_DOWN, KC_UP) }
@@ -87,21 +67,15 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 #endif
 
 void matrix_init_user(void) {
-  // NICOLA親指シフト
-  set_nicola(_NICOLA);
-  // NICOLA親指シフト
+    // NICOLA親指シフト
+    set_nicola(_NICOLA);
+    // NICOLA親指シフト
 }
 
-/*
 // Initialize the 13th LED
 void keyboard_post_init_user(void) {
-    for(int i=0; i<RGBLED_NUM; ++i) {
-        rgblight_setrgb_at(0, 0, 0, i);
-    }
-    rgblight_setrgb_at(170,255,40, RGBLED_NUM-1); // the last LED = BLUE (NICOLA off)
     nicola_off();
 }
-*/
 
 // IMEを監視する"observe_ime"を使用する場合、Num Lockでnicola on/offする。
 // キーボード単体でnicola on/offを制御する場合はコメントアウトする。
@@ -162,12 +136,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     a = process_nicola(keycode, record);
   }
   if (a == false) return false;
-  // NICOLA親指シフト
-
-//   bool continue_process = process_jtu(keycode, record);
-//   if (continue_process == false) {
-//     return false;
-//   }
 
   return true;
 }
@@ -177,4 +145,42 @@ void matrix_scan_user(void) {
 
 	uint32_t now = timer_read32();
 	timer_tick(now);	// drive nicola state-machine.
+}
+
+// レイヤーごとにLEDパターンを切り替える
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 255, 255, 0); // nicola : off
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 0, 0, 0); // function key : ↑
+            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 0, 0, 0); // function key : ←
+            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 0, 0, 0); // function key : ↓
+            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 0, 0, 0); // function key : →
+            break;
+        case _NICOLA:
+            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 0, 0, 0); // nicola : off
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 255, 255, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 255, 255, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 255, 255, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 0, 0, 0); // function key : ↑
+            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 0, 0, 0); // function key : ←
+            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 0, 0, 0); // function key : ↓
+            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 0, 0, 0); // function key : →
+            break;
+        case _FUNC:
+            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 0, 0, 0); // nicola : off
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 0, 0, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 255, 255, 0); // function key : ↑
+            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 255, 255, 0); // function key : ←
+            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 255, 255, 0); // function key : ↓
+            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 255, 255, 0); // function key : →
+            break;
+    }
+    return false;
 }
