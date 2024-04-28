@@ -31,8 +31,8 @@ static bool is_nicola = false;      // 親指シフトがオンかオフか
 static uint8_t nicola_layer = 0;    // レイヤー番号
 static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 
-#define TIMEOUT_THRESHOLD (150)
-//#define TIMEOUT_THRESHOLD (200)
+//#define TIMEOUT_THRESHOLD (150)
+#define TIMEOUT_THRESHOLD (200)
 #define OVERLAP_THRESHOLD (20)
 
 typedef enum {
@@ -319,9 +319,11 @@ void nicola_om_type(void) {
 
 // 親指シフトの入力処理
 bool process_nicola(uint16_t keycode, keyrecord_t *record) {
+
+  if (n_modifier > 0) return true;
+
   key_process_guard = 1; // timeout entrance guard
   bool cont_process = true;
-  // if (!is_nicola || n_modifier > 0) return true;
   uint32_t curr_time = timer_read32();
 
   if (record->event.pressed) {
