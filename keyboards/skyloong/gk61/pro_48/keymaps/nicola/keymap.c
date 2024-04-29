@@ -147,39 +147,30 @@ void matrix_scan_user(void) {
 	timer_tick(now);	// drive nicola state-machine.
 }
 
-// レイヤーごとにLEDパターンを切り替える
+// This function switches the LED pattern for each layer.
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+
+    //rgb_matrix_set_color_all(0, 0, 0);
+    for (uint8_t i = led_min; i < led_max; i++)
+        RGB_MATRIX_INDICATOR_SET_COLOR(i, 0, 0, 0);
 
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
             RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 255, 255, 0); // nicola : off
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 0, 0, 0); // function key : ↑
-            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 0, 0, 0); // function key : ←
-            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 0, 0, 0); // function key : ↓
-            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 0, 0, 0); // function key : →
             break;
         case _NICOLA:
-            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 0, 0, 0); // nicola : off
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 255, 255, 0); // nicola : on
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 255, 255, 0); // nicola : on
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 255, 255, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 0, 0, 0); // function key : ↑
-            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 0, 0, 0); // function key : ←
-            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 0, 0, 0); // function key : ↓
-            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 0, 0, 0); // function key : →
             break;
         case _FUNC:
-            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 0, 0, 0); // nicola : off
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 0, 0, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 255, 255, 0); // function key : ↑
-            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 255, 255, 0); // function key : ←
-            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 255, 255, 0); // function key : ↓
-            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 255, 255, 0); // function key : →
+            RGB_MATRIX_INDICATOR_SET_COLOR(BS_INDEX, 255, 0, 0); // function key : BS
+            RGB_MATRIX_INDICATOR_SET_COLOR(E_UP_INDEX, 255, 0, 0); // function key : ↑
+            RGB_MATRIX_INDICATOR_SET_COLOR(S_LEFT_INDEX, 255, 0, 0); // function key : ←
+            RGB_MATRIX_INDICATOR_SET_COLOR(D_DOWN_INDEX, 255, 0, 0); // function key : ↓
+            RGB_MATRIX_INDICATOR_SET_COLOR(F_RIGHT_INDEX, 255, 0, 0); // function key : →
+            RGB_MATRIX_INDICATOR_SET_COLOR(L_PU_INDEX, 255, 0, 0); // function key : PU
+            RGB_MATRIX_INDICATOR_SET_COLOR(GT_PD_INDEX, 255, 0, 0); // function key : PD
             break;
     }
     return false;
