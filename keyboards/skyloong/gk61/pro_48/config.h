@@ -13,11 +13,11 @@
 #define OYA_CENTER_INDEX 58
 #define OYA_RIGHT_INDEX 59
 #define BS_INDEX 13
-#define E_UP_INDEX 17
-#define S_LEFT_INDEX 30
-#define D_DOWN_INDEX 31
-#define F_RIGHT_INDEX 32
 #define L_PU_INDEX 37       // L : PageUp
 #define GT_PD_INDEX 50      // > : PageDown
+#define E_UP_INDEX 51       // / : ↑
+#define S_LEFT_INDEX 60     // ALT : ←
+#define D_DOWN_INDEX 61     // MENU : ↓
+#define F_RIGHT_INDEX 62    // CTRL : →
 
 #define g_suspend_state rgb_matrix_get_suspend_state()
