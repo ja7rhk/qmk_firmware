@@ -31,8 +31,8 @@ static bool is_nicola = false;      // 親指シフトがオンかオフか
 static uint8_t nicola_layer = 0;    // レイヤー番号
 static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 
-//#define TIMEOUT_THRESHOLD (150)
-#define TIMEOUT_THRESHOLD (200)
+#define TIMEOUT_THRESHOLD (150)         // 文字キー長押しの場合の自動送出
+#define TIMEOUT_OYA_THRESHOLD (400)     // 親指キー長押しの場合(Space → F15:変換キー)
 #define OVERLAP_THRESHOLD (20)
 
 typedef enum {
@@ -206,6 +206,14 @@ void nicola_o_type(void) {
         send_string(SS_TAP(X_F14));         // 左親指キーはWin MS-IME で無変換キー
     } else if(nicola_o_key == NG_SHFTR) {
         send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
+    }
+}
+
+void nicola_o_TO_type(void) {
+    if(nicola_o_key == NG_SHFTL) {
+        send_string(SS_TAP(X_TAB));         // タイムアウト時はTAB(変換候補選択)キー
+    } else if(nicola_o_key == NG_SHFTR) {
+        send_string(SS_TAP(X_F15));         // タイムアウト時はF15(変換)キー
     }
 }
 
@@ -436,7 +444,7 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         nicola_o_time = curr_time;
         //koseki(2024.4.25)
         //keypress_timer_start(TIMEOUT_THRESHOLD * 16);
-        event_time = curr_time + TIMEOUT_THRESHOLD;
+        event_time = curr_time + TIMEOUT_OYA_THRESHOLD;
         //**
         cont_process = false;
 
@@ -536,7 +544,8 @@ void keypress_timer_expired(void) {
                 nicola_m_type();
                 break;
             case NICOLA_STATE_S3_O:
-                nicola_o_type();
+                //nicola_o_type();
+                nicola_o_TO_type();     // Time Out
                 break;
             case NICOLA_STATE_S4_MO:
                 nicola_om_type();
