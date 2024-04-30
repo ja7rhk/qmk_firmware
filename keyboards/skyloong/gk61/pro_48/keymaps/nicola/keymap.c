@@ -42,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NICOLA] = LAYOUT_all(
-        KC_ESC,       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,        NG_6,     NG_7,    NG_8,     KC_9,      NG_0,     NG_MINS,  NG_EQL,   KC_BSPC,
+        KC_ESC,       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,        NG_6,     NG_7,    NG_8,     NG_9,      NG_0,     NG_MINS,  NG_EQL,   KC_BSPC,
         KC_TAB,       NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,        NG_Y,     NG_U,    NG_I,     NG_O,      NG_P,     NG_LBRC,  NG_RBRC,  NG_BSLS,
         KC_CAPS_LOCK, NG_A,     NG_S,     NG_D,     NG_F,     NG_G,        NG_H,     NG_J,    NG_K,     NG_L,      NG_SCLN,  KC_BSPC,            KC_ENT,
         KC_LSFT,      NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,        NG_N,     NG_M,    NG_COMM,  NG_DOT,    NG_SLSH,            KC_RSFT,
@@ -60,9 +60,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_QWERTY] = { ENCODER_CCW_CW(KC_PGDN, KC_PGUP) },
-    [_NICOLA] = { ENCODER_CCW_CW(KC_PGDN, KC_PGUP) },
-    [_FUNC] =   { ENCODER_CCW_CW(KC_PGDN, KC_PGUP) }
+    [_QWERTY] = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_NICOLA] = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_FUNC] =   { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) }
 };
 #endif
 

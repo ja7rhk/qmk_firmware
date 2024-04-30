@@ -32,7 +32,7 @@ static uint8_t nicola_layer = 0;    // レイヤー番号
 static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 
 #define TIMEOUT_THRESHOLD (150)         // 文字キー長押しの場合の自動送出
-#define TIMEOUT_OYA_THRESHOLD (400)     // 親指キー長押しの場合(Space → F15:変換キー)
+#define TIMEOUT_OYA_THRESHOLD (250)     // 親指キー長押しの場合(Space → F15:変換キー)
 #define OVERLAP_THRESHOLD (20)
 
 typedef enum {
@@ -280,8 +280,8 @@ void nicola_om_type(void) {
             case NG_6   : send_string("<"); break;      // <
             case NG_7   : send_string(">"); break;      // >
             case NG_8   : send_string("*"); break;      // *
-            case NG_9   : send_string("*"); break;      // (
-            case NG_0   : send_string("("); break;      // )
+            case NG_9   : send_string("("); break;      // (
+            case NG_0   : send_string(")"); break;      // )
             case NG_MINS: send_string("_"); break;      // _
             case NG_EQL : send_string("+"); break;      // +
 
