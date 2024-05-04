@@ -5,6 +5,7 @@
 
 #include "nicola.h" // NICOLA親指シフト
 #include <timer.h>
+#include "rgb_config.h" // RGB LEDの定義
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
      * │Sft│ Z │ X │ C │ V │ B │ N │ M │ , │ . │ / │   |Sft|   │
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
-     * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Alt│App│Ctl│   │Mo1|
+     * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Mo1│Alt│App│   │Ctl|
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
 
@@ -99,45 +100,45 @@ bool led_update_kb(led_t led_state) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  switch (keycode) {
-    // 英数キー(Caps Lock)、nicola mode オフ
-    case KC_CAPS_LOCK:
-        if (record->event.pressed) {
-            //send_string(SS_TAP(X_CAPS_LOCK)); // Win MS-IME
-            send_string(SS_LSFT(SS_TAP(X_CAPS_LOCK))); // Win MS-IME
-        #ifndef USE_OBSERVE_IME
-            nicola_off();
-        #endif
-        }
-        return false;
-        break;
-    // 英数モードのとき左親指キー(F14)で、nicola mode オン
-    case KC_F14:
-        if (record->event.pressed) {
-            send_string(SS_TAP(X_F14));
-        #ifndef USE_OBSERVE_IME
-            nicola_on();
-        #endif
-        }
-        return false;
-        break;
-    // 右親指キー(空白)
-    case KC_SPC:
-      if (record->event.pressed) {
-        /* ここでは何もしない */
-      }
-      break;
-  }
+    switch (keycode) {
+        // 英数キー(Caps Lock)、nicola mode オフ
+        case KC_CAPS_LOCK:
+            if (record->event.pressed) {
+                //send_string(SS_TAP(X_CAPS_LOCK)); // Win MS-IME
+                send_string(SS_LSFT(SS_TAP(X_CAPS_LOCK))); // Win MS-IME
+            #ifndef USE_OBSERVE_IME
+                nicola_off();
+            #endif
+            }
+            return false;
+            break;
+        // 英数モードのとき左親指キー(F14)で、nicola mode オン
+        case KC_F14:
+            if (record->event.pressed) {
+                send_string(SS_TAP(X_F14));
+            #ifndef USE_OBSERVE_IME
+                nicola_on();
+            #endif
+            }
+            return false;
+            break;
+        // 右親指キー(空白)
+        case KC_SPC:
+            if (record->event.pressed) {
+                /* ここでは何もしない */
+            }
+            break;
+    }
 
-  // NICOLA親指シフト
-  bool a = true;
-  if (nicola_state()) {
-    nicola_mode(keycode, record);
-    a = process_nicola(keycode, record);
-  }
-  if (a == false) return false;
+    // NICOLA親指シフト
+    bool a = true;
+    if (nicola_state()) {
+        nicola_mode(keycode, record);
+        a = process_nicola(keycode, record);
+    }
+    if (a == false) return false;
 
-  return true;
+    return true;
 }
 
 // This function gets called at every matrix scan.
@@ -165,12 +166,13 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             break;
         case _FUNC:
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 255, 0, 0); // Left Oyayubi key : DEL
+            RGB_MATRIX_INDICATOR_SET_COLOR(FN_PS_INDEX, 0, 0, 255); // function key : PS
+            RGB_MATRIX_INDICATOR_SET_COLOR(FN_PU_INDEX, 0, 0, 255); // function key : PU
+            RGB_MATRIX_INDICATOR_SET_COLOR(FN_PD_INDEX, 0, 0, 255); // function key : PD
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_UP_INDEX, 255, 255, 0); //  function key : ↑
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_LEFT_INDEX, 255, 255, 0); // function key : ←
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_DOWN_INDEX, 255, 255, 0); // function key : ↓
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_RIGHT_INDEX, 255, 255, 0); // function key : →
-            RGB_MATRIX_INDICATOR_SET_COLOR(FN_PU_INDEX, 0, 0, 255); // function key : PU
-            RGB_MATRIX_INDICATOR_SET_COLOR(FN_PD_INDEX, 0, 0, 255); // function key : PD
             break;
     }
     return false;

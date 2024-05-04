@@ -9,6 +9,8 @@
 ## 配列
 ![Layout](assets/gk61_pro_nicola_layout.png "Layout")
 
+※右下の修飾キーはFNキーで有効になります。通常はカーソル移動に使用します。
+
 ## Nicolaモードの制御
 本キーボードはhoboNicolaで使用している"observe_ime"を使うことを想定しています。 
 Windowsのアプリ毎のIME状態がキーボードに反映されるので、いわゆるモードずれを気にする必要がありません。   
