@@ -111,7 +111,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             #endif
             }
             return false;
-            break;
         // 英数モードのとき左親指キー(F14)で、nicola mode オン
         case KC_F14:
             if (record->event.pressed) {
@@ -121,7 +120,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             #endif
             }
             return false;
-            break;
         // 右親指キー(空白)
         case KC_SPC:
             if (record->event.pressed) {

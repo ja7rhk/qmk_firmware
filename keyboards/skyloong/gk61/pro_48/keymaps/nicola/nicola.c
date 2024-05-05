@@ -145,8 +145,10 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
 
 #define SS_ALNUM(x) SS_TAP(X_CAPSLOCK) x SS_TAP(X_CAPSLOCK)
 
+//**koseki(2024.5.5)
 void nicola_m_type(void) {
-    if (n_modifier == 0) {
+    //if (n_modifier == 0) {
+    if ((get_mods() & MOD_MASK_SHIFT) == 0) {
         switch(nicola_m_key) {
             case NG_1   : send_string("1" ); break;
             case NG_2   : send_string("2" ); break;
@@ -199,7 +201,61 @@ void nicola_m_type(void) {
             case NG_SLSH: send_string("/" ); break;
         }
     }
+    else if (get_mods() & MOD_MASK_SHIFT) { // shiftキーを押したときMS-IMEは英語モード、直接入力モードを使用しないのチェックは外す。
+        switch(nicola_m_key) {
+            case NG_1   : send_string("!"); break;
+            case NG_2   : send_string("@"); break;
+            case NG_3   : send_string("#"); break;
+            case NG_4   : send_string("$"); break;
+            case NG_5   : send_string("%"); break;
+            case NG_6   : send_string("^"); break;
+            case NG_7   : send_string("&"); break;
+            case NG_8   : send_string("*"); break;
+            case NG_9   : send_string("("); break;
+            case NG_0   : send_string(")"); break;
+            case NG_MINS: send_string("_"); break;
+            case NG_EQL : send_string("+"); break;
+
+            case NG_Q   : send_string("Q" ); break;
+            case NG_W   : send_string("W"); break;
+            case NG_E   : send_string("E"); break;
+            case NG_R   : send_string("R"); break;
+            case NG_T   : send_string("T"); break;
+            case NG_Y   : send_string("Y"); break;
+            case NG_U   : send_string("U"); break;
+            case NG_I   : send_string("I"); break;
+            case NG_O   : send_string("O"); break;
+            case NG_P   : send_string("P"); break;
+            case NG_LBRC: send_string("{"); break;
+            case NG_RBRC: send_string("}"); break;
+            case NG_BSLS: send_string("|"); break;
+
+            case NG_A   : send_string("A"); break;
+            case NG_S   : send_string("S"); break;
+            case NG_D   : send_string("D"); break;
+            case NG_F   : send_string("F"); break;
+            case NG_G   : send_string("G"); break;
+            case NG_H   : send_string("H"); break;
+            case NG_J   : send_string("J"); break;
+            case NG_K   : send_string("K"); break;
+            case NG_L   : send_string("L"); break;
+            case NG_SCLN: send_string(":"); break;
+            case NG_QUOT:                 ; break;
+
+            case NG_Z   : send_string("Z"); break;
+            case NG_X   : send_string("X"); break;
+            case NG_C   : send_string("C"); break;
+            case NG_V   : send_string("V"); break;
+            case NG_B   : send_string("B"); break;
+            case NG_N   : send_string("N"); break;
+            case NG_M   : send_string("M"); break;
+            case NG_COMM: send_string("<"); break;
+            case NG_DOT : send_string(">"); break;
+            case NG_SLSH: send_string("?"); break;
+        }
+    }
 }
+//**
 
 void nicola_o_type(void) {
     if(nicola_o_key == NG_SHFTL) {
