@@ -207,7 +207,7 @@ void nicola_m_type(void) {
             case NG_2   : send_string("@"); break;
             case NG_3   : send_string("#"); break;
             case NG_4   : send_string("$"); break;
-            case NG_5   : send_string("%"); break;
+            case NG_5   : send_string("%%"); break;
             case NG_6   : send_string("^"); break;
             case NG_7   : send_string("&"); break;
             case NG_8   : send_string("*"); break;
