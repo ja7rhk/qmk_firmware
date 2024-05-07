@@ -3,6 +3,7 @@
 #define OYA_LEFT_INDEX 56
 #define OYA_CENTER_INDEX 58
 #define OYA_RIGHT_INDEX 59
+#define FN_BS_INDEX 13       // BS : Delete
 #define FN_PS_INDEX 21       // U : PrintScreen
 #define FN_PU_INDEX 37       // L : PageUp
 #define FN_PD_INDEX 50       // > : PageDown

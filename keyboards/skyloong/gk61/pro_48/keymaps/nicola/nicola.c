@@ -128,7 +128,7 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
                 if(n_modifier == 0) {
                     layer_off(nicola_layer);
                 }
-                if (n_modifier < 2)
+                if (n_modifier < 3)
                     n_modifier++;
             } else {
                 if (n_modifier > 0)

@@ -97,16 +97,6 @@ typedef enum nicola_keycodes {
 
 } NGKEYS;
 
-#define NG_SAFE_RANGE (NG_BOTTOM+1)
-
-enum custom_keycodes {
-  MT_TOP = NG_SAFE_RANGE,
-  MT_RSFT,
-  MT_RALT,
-  MT_APP,
-  MT_RCTL,
-  MT_BOTTOM = MT_RCTL,
-};
 
 
 

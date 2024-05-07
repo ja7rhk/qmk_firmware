@@ -1,4 +1,5 @@
 ## This repository is a preliminary attempt to implement the Nicola Japanese input method on GK61 Pro.
+### please refer to -> keyboards/skyloong/gk61/pro_48/keymaps/nicola
 
 # GK61 PRO
 
