@@ -1,6 +1,6 @@
 ## This repository is a preliminary attempt to implement the Nicola Japanese input method on GK61 Pro.
 ### please refer to -> keyboards/skyloong/gk61/pro_48/keymaps/nicola
-[nicola] (https://github.com/ja7rhk/qmk_firmware/tree/master/keyboards/skyloong/gk61/pro_48/keymaps/nicola/readme.md)
+* [keyboards/skyloong/gk61/pro_48/keymaps/nicola/readme.md](https://github.com/ja7rhk/qmk_firmware/tree/master/keyboards/skyloong/gk61/pro_48/keymaps/nicola/readme.md)
 
 # Quantum Mechanical Keyboard Firmware
 
