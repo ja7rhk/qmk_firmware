@@ -543,7 +543,7 @@ void keypress_timer_expired(void) {
                 break;
             case NICOLA_STATE_S3_O:
                 //nicola_o_type();
-                nicola_o_TO_type();     // Time Out
+                nicola_o_TO_type();     // Oyayubi key Time Out
                 break;
             case NICOLA_STATE_S4_MO:
                 nicola_om_type();
