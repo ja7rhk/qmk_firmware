@@ -33,8 +33,10 @@ static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 
 #define TIMEOUT_THRESHOLD (150)         // 文字キー長押しの場合の自動送出
 #define TIMEOUT_OYA_THRESHOLD (250)     // 親指キー長押しの場合(Space → F15:変換キー)
-#define OVERLAP_THRESHOLD (20)
-
+//**koseki(2024.5.16)
+//#define OVERLAP_THRESHOLD (20)
+#define OVERLAP_THRESHOLD (80)
+//**
 typedef enum {
   NICOLA_STATE_S1_INIT,
   NICOLA_STATE_S2_M,
