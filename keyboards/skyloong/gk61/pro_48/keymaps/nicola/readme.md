@@ -16,10 +16,10 @@
 Windowsのアプリ毎のIME状態がキーボードに反映されるので、いわゆるモードずれを気にする必要がありません。   
 
 (1) F14でMS-IME側"IME on"、CAPSLOCKで"IME off"に切り替える。  
-(2) "observe_ime"はIMEの状態からキーボードにNum Lockで返す。  
-(3) キーボードではNum Lockの状態でNicolaモードを切り換える。  
+(2) "observe_ime"はIMEの状態からキーボードにNum Lockで通知する。  
+(3) キーボードではNum Lockの状態に従ってNicolaモードをon/offする。  
 
-※この機能を利用しない場合はkeymap.cの#define USE_OBSERVE_IMEをコメントアウトして下さい。  
+※この機能を利用しない場合は\pro_48\config,hの#define USE_OBSERVE_IMEをコメントアウトして下さい。  
 
 ## 制限事項
 * Nicolaモードのとき、キーのリピートは効きません。
