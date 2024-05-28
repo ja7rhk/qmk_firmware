@@ -100,7 +100,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // 英数キー(Caps Lock)、nicola mode オフ
         case KC_CAPS_LOCK:
             if (record->event.pressed) {
-                send_string(SS_TAP(X_LNG2));
+                //send_string(SS_TAP(X_LNG2));
+                send_string(SS_LSFT(SS_TAP(X_CAPS_LOCK)));
             #ifdef USE_OBSERVE_IME
                 nicola_off();
             #endif
@@ -109,7 +110,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // 英数モードのとき左親指キー(F14)で、nicola mode オン
         case KC_F14:
             if (record->event.pressed) {
-                send_string(SS_TAP(X_LNG1));
+                send_string(SS_TAP(X_F14));
             #ifdef USE_OBSERVE_IME
                 nicola_on();
             #endif
