@@ -148,18 +148,18 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
 void nicola_m_type(void) {
     if (n_modifier == 0) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("1" ); break;
-            case NG_2   : send_string("2" ); break;
-            case NG_3   : send_string("3" ); break;
-            case NG_4   : send_string("4" ); break;
-            case NG_5   : send_string("5" ); break;
-            case NG_6   : send_string("6" ); break;
-            case NG_7   : send_string("7" ); break;
-            case NG_8   : send_string("8" ); break;
-            case NG_9   : send_string("9" ); break;
-            case NG_0   : send_string("0" ); break;
-            case NG_MINS: send_string("-" ); break;
-            case NG_EQL : send_string("=" ); break;
+            case NG_1   : send_string("1" ); break;     // １
+            case NG_2   : send_string("2" ); break;     // ２
+            case NG_3   : send_string("3" ); break;     // ３
+            case NG_4   : send_string("4" ); break;     // ４
+            case NG_5   : send_string("5" ); break;     // ５
+            case NG_6   : send_string("6" ); break;     // ６
+            case NG_7   : send_string("7" ); break;     // ７
+            case NG_8   : send_string("8" ); break;     // ８
+            case NG_9   : send_string("9" ); break;     // ９
+            case NG_0   : send_string("0" ); break;     // ０
+            case NG_MINS: send_string("-" ); break;     // ――
+            case NG_EQL : send_string("=" ); break;     // ＝
 
             case NG_Q   : send_string("." ); break;     //ピリオドと句点は区別できない
             case NG_W   : send_string("ka"); break;
@@ -170,9 +170,9 @@ void nicola_m_type(void) {
             case NG_U   : send_string("ti"); break;
             case NG_I   : send_string("ku"); break;
             case NG_O   : send_string("tu"); break;
-            case NG_P   : send_string("," ); break;     // カンマと読点も区別できない
-            case NG_LBRC: send_string("," ); break;     // カンマと読点も区別できない
-            case NG_RBRC:                    break;
+            case NG_P   : send_string(",");  break;     // カンマと読点も区別できない
+            case NG_LBRC: send_string("[");  break;     // [
+            case NG_RBRC: send_string("]");  break;     // ]
             case NG_BSLS: send_string("\\"); break;     // 円記号"\"を送る
 
             case NG_A   : send_string("u" ); break;
@@ -220,18 +220,18 @@ void nicola_o_TO_type(void) {
 void nicola_om_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("?"); break;
-            case NG_2   : send_string("/"); break;
-            case NG_3   : send_string("~"); break;      // ~
-            case NG_4   : send_string("["); break;      // [
-            case NG_5   : send_string("]"); break;      // ]
-            case NG_6   : send_string("<"); break;      // <
-            case NG_7   : send_string(">"); break;      // >
-            case NG_8   : send_string("*"); break;      // *
-            case NG_9   : send_string("("); break;      // (
-            case NG_0   : send_string(")"); break;      // )
-            case NG_MINS: send_string("_"); break;      // _
-            case NG_EQL : send_string("+"); break;      // +
+            case NG_1   : send_string("?"); break;      // ？
+            case NG_2   : send_string("/"); break;      // ・
+            case NG_3   : send_string("~"); break;      // ～
+            case NG_4   : send_string("["); break;      // 「
+            case NG_5   : send_string("]"); break;      // 」
+            case NG_6   : send_string("{"); break;      // 『
+            case NG_7   : send_string("}"); break;      // 』
+            case NG_8   : send_string("*"); break;      // ＊
+            case NG_9   : send_string("("); break;      // （
+            case NG_0   : send_string(")"); break;      // ）
+            case NG_MINS: send_string("_"); break;      // ＿
+            case NG_EQL : send_string("+"); break;      // ＋
 
             case NG_Q   : send_string("xa"); break;
             case NG_W   : send_string("e" ); break;
