@@ -243,8 +243,8 @@ void nicola_om_type(void) {
             case NG_I   : send_string("gu"); break;
             case NG_O   : send_string("du"); break;
             case NG_P   : send_string("pi"); break;
-            case NG_LBRC: send_string("{" ); break;
-            case NG_RBRC: send_string("}" ); break;
+            case NG_LBRC: send_string("{" ); break;     // {
+            case NG_RBRC: send_string("}" ); break;     // }
             case NG_BSLS: send_string("|" ); break;
 
             case NG_A   : send_string("wo"); break;
@@ -272,18 +272,18 @@ void nicola_om_type(void) {
         }
     } else if(nicola_o_key == NG_SHFTR) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("?"); break;
-            case NG_2   : send_string("/"); break;
-            case NG_3   : send_string("~"); break;      // ~
-            case NG_4   : send_string("["); break;      // [
-            case NG_5   : send_string("]"); break;      // ]
-            case NG_6   : send_string("<"); break;      // <
-            case NG_7   : send_string(">"); break;      // >
-            case NG_8   : send_string("*"); break;      // *
-            case NG_9   : send_string("("); break;      // (
-            case NG_0   : send_string(")"); break;      // )
-            case NG_MINS: send_string("_"); break;      // _
-            case NG_EQL : send_string("+"); break;      // +
+            case NG_1   : send_string("?"); break;      // ？
+            case NG_2   : send_string("/"); break;      // ・
+            case NG_3   : send_string("~"); break;      // ～
+            case NG_4   : send_string("["); break;      // 「
+            case NG_5   : send_string("]"); break;      // 」
+            case NG_6   : send_string("{"); break;      // 『
+            case NG_7   : send_string("}"); break;      // 』
+            case NG_8   : send_string("*"); break;      // ＊
+            case NG_9   : send_string("("); break;      // （
+            case NG_0   : send_string(")"); break;      // ）
+            case NG_MINS: send_string("_"); break;      // ＿
+            case NG_EQL : send_string("+"); break;      // ＋
 
             case NG_Q   :                    break;
             case NG_W   : send_string("ga"); break;
@@ -295,8 +295,8 @@ void nicola_om_type(void) {
             case NG_I   : send_string("ru"); break;
             case NG_O   : send_string("ma"); break;
             case NG_P   : send_string("xe"); break;
-            case NG_LBRC: send_string("{" ); break;
-            case NG_RBRC: send_string("}" ); break;
+            case NG_LBRC: send_string("{" ); break;     // {
+            case NG_RBRC: send_string("}" ); break;     // }
             case NG_BSLS: send_string("|" ); break;
 
             case NG_A   : send_string("vu"); break;
