@@ -127,9 +127,8 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
         case KC_RALT:
         case KC_RGUI:
             if (record->event.pressed) {
-                if(n_modifier == 0) {
+                if(n_modifier == 0)
                     layer_off(nicola_layer);
-                }
                 if (n_modifier < 3)
                     n_modifier++;
             } else {
@@ -143,9 +142,10 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-#define SS_ALNUM(x) SS_TAP(X_CAPSLOCK) x SS_TAP(X_CAPSLOCK)
+//#define SS_ALNUM(x) SS_TAP(X_CAPSLOCK) x SS_TAP(X_CAPSLOCK)
 
 void nicola_m_type(void) {
+    //if (n_modifier == 0) {
     if (n_modifier == 0) {
         switch(nicola_m_key) {
             case NG_1   : send_string("1" ); break;     // １

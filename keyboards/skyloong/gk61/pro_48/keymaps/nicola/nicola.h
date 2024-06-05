@@ -31,7 +31,7 @@ bool nicola_state(void);
 bool process_nicola(uint16_t, keyrecord_t *);
 void set_nicola(uint8_t);
 
-//koseki(2024.4.25)
+//**koseki(2024.4.25)
 void timer_tick(uint32_t);
 //**
 
