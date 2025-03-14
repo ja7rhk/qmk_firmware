@@ -1,0 +1,4 @@
+SRC +=  nicola.c
+
+ENCODER_MAP_ENABLE = yes
+DIP_SWITCH_MAP_ENABLE = yes
