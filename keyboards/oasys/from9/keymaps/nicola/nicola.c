@@ -183,7 +183,7 @@ void nicola_m_type(void) {
             case NG_L   : send_string("i" ); break;
             case NG_SCLN: send_string("nn"); break;
 
-            case NG_Z   : send_string("." ); break;     //ピリオドと句点は区別できない
+            case NG_Z   : send_string("." ); break;     // ピリオドと句点は区別できない
             case NG_X   : send_string("hi"); break;
             case NG_C   : send_string("su"); break;
             case NG_V   : send_string("hu"); break;
@@ -199,7 +199,7 @@ void nicola_m_type(void) {
 
 void nicola_o_type(void) {
     if(nicola_o_key == NG_SHFTL) {
-        send_string(SS_TAP(X_F14));         // 左親指キーはWin MS-IME で無変換キー
+        send_string(SS_TAP(X_INT5));        // 左親指キーはWin MS-IME で無変換キー
     } else if(nicola_o_key == NG_SHFTR) {
         send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
     }
@@ -208,8 +208,6 @@ void nicola_o_type(void) {
 void nicola_o_TO_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         send_string(SS_TAP(X_TAB));         // タイムアウト時はTAB(変換候補選択)キー
-    } else if(nicola_o_key == NG_SHFTR) {
-        send_string(SS_TAP(X_F15));         // タイムアウト時はF15(変換)キー
     }
 }
 
@@ -500,7 +498,6 @@ void keypress_timer_expired(void) {
                 nicola_m_type();
                 break;
             case NICOLA_STATE_S3_O:
-                //nicola_o_type();
                 nicola_o_TO_type();     // Oyayubi key Time Out
                 break;
             case NICOLA_STATE_S4_MO:
