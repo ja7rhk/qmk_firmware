@@ -35,8 +35,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
    [_QWERTY] = LAYOUT(
        KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     JP_MINS,  JP_AT,    KC_RALT,   KC_PGUP,  KC_PGDN,  KC_PSCR,
-       KC_LNG2,  KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     JP_COLN,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
-       KC_CAPS,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
+       KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     JP_COLN,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
+       KC_LNG2,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
        KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                       KC_LEFT,  KC_RIGHT, KC_DOWN,
        KC_LCTL,            KC_TAB,             KC_LNG1,                      KC_SPC,                       MO(_FUNC),
                                                          _______,  _______,                                                                         KC_ENT
@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
    [_NICOLA] = LAYOUT(
        NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  NG_AT,    KC_RALT,   KC_PGUP,  KC_PGDN,  KC_PSCR,
-       KC_LNG2,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_COLN,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
+       KC_TAB,   NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_COLN,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
        KC_LNG2,  NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
        KC_LSFT,  NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,                       KC_LEFT,  KC_RIGHT, KC_DOWN,
        KC_LCTL,            KC_TAB,             NG_SHFTL,                     NG_SHFTR,                     MO(_FUNC),
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    [_FUNC] = LAYOUT(
        KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   JP_CIRC,  JP_YEN,   KC_RALT,   _______,  _______,  _______,
        _______,  KC_F11,   KC_F12,   _______,  _______,  _______,  _______,  KC_PSCR,  _______,  _______,  _______,  JP_LBRC,  _______,   _______,  _______,  _______,
-       JP_CAPS,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  JP_RBRC,  _______,  _______,             _______,
+       KC_CAPS,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  JP_RBRC,  _______,  _______,             _______,
        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  JP_BSLS,                      _______,   _______,  _______,
        _______,            _______,            _______,                      _______,                      _______,
                                                          _______,  _______,                                                                         _______
@@ -70,12 +70,10 @@ void matrix_init_user(void) {
 // Initialize the 13th LED
 void keyboard_post_init_user(void) {
     nicola_off();
-    gpio_set_pin_output(USER_LED);
-    gpio_write_pin(USER_LED, 0);        // *QWERT LED On
     gpio_set_pin_output(NICOLA_LED);
     gpio_write_pin(NICOLA_LED, 0);      // Nicola LED Off
     gpio_set_pin_output(CAPSLK_LED);
-    gpio_write_pin(CAPSLK_LED, 0);      // *CapsLock LED Off
+    gpio_write_pin(CAPSLK_LED, 1);      // *CapsLock LED On
 }
 
 static bool is_numlock = false;     // NumLockがオンかオフか
@@ -93,21 +91,19 @@ bool led_update_kb(led_t led_state) {
             {
                 nicola_on();
                 gpio_write_pin(NICOLA_LED, 1);
-                gpio_write_pin(USER_LED, 1);
             }
 			else
             {
                 nicola_off();
                 gpio_write_pin(NICOLA_LED, 0);
-                gpio_write_pin(USER_LED, 0);
             }
         }
         #endif
         if (led_state.caps_lock != is_capslock) {
             if (led_state.caps_lock)
-                gpio_write_pin(CAPSLK_LED, 1);      // CapsLock LED On
+                gpio_write_pin(CAPSLK_LED, 0);      // *CapsLock LED Off
 			else
-                gpio_write_pin(CAPSLK_LED, 0);      // CapsLock LED Off
+                gpio_write_pin(CAPSLK_LED, 1);      // *CapsLock LED On
         }
         is_numlock = led_state.num_lock;
         is_capslock = led_state.caps_lock;

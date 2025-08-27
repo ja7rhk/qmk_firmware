@@ -3,7 +3,7 @@
 
 #pragma once
 
-#define USER_LED C13        // *QWERTY LED
+#define USER_LED C13
 #define NICOLA_LED C14      // Nicola LED
 #define CAPSLK_LED B15      // CapsLock LED
 
