@@ -201,15 +201,20 @@ void nicola_o_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         send_string(SS_TAP(X_INT5));        // 左親指キーはWin MS-IME で無変換キー
     } else if(nicola_o_key == NG_SHFTR) {
-        send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
+        //send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
+        send_string(SS_TAP(X_INT4));        // 右親指キーは単独打鍵でX_INTERNATIONAL_4(変換)キー
     }
 }
 
+/*
 void nicola_o_TO_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         send_string(SS_TAP(X_TAB));         // タイムアウト時はTAB(変換候補選択)キー
+    } else if(nicola_o_key == NG_SHFTR) {
+        send_string(SS_TAP(X_INT4));        // タイムアウト時はX_INTERNATIONAL_4(変換)キー
     }
 }
+*/
 
 void nicola_om_type(void) {
     if(nicola_o_key == NG_SHFTL) {
@@ -498,7 +503,8 @@ void keypress_timer_expired(void) {
                 nicola_m_type();
                 break;
             case NICOLA_STATE_S3_O:
-                nicola_o_TO_type();     // Oyayubi key Time Out
+                nicola_o_type();     // Oyayubi key
+                //nicola_o_TO_type();     // Oyayubi key Time Out
                 break;
             case NICOLA_STATE_S4_MO:
                 nicola_om_type();

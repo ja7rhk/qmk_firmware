@@ -1,0 +1,5 @@
+SRC +=  nicola.c
+
+OLED_ENABLE = yes
+LED_DRIVER = SSD1306
+OLED_TRANSPORT = i2c

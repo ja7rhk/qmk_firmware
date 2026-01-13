@@ -35,7 +35,8 @@ static uint8_t n_modifier = 0;      // 押しているmodifierキーの数
 #define TIMEOUT_OYA_THRESHOLD (250)     // 親指キー長押しの場合(Space → F15:変換キー)
 //**koseki(2024.5.16)
 //#define OVERLAP_THRESHOLD (20)
-#define OVERLAP_THRESHOLD (80)
+//#define OVERLAP_THRESHOLD (80)
+#define OVERLAP_THRESHOLD (100)
 //**
 typedef enum {
 	NICOLA_STATE_S1_INIT,
@@ -338,107 +339,110 @@ bool process_nicola(uint16_t keycode, keyrecord_t *record) {
         if(NG_M_TOP <= keycode && keycode <= NG_M_BOTTOM) {
             // M key
             switch(nicola_int_state) {
-            case NICOLA_STATE_S1_INIT:
-                nicola_int_state = NICOLA_STATE_S2_M;
+                case NICOLA_STATE_S1_INIT:
+                    nicola_int_state = NICOLA_STATE_S2_M;
+                    break;
+                case NICOLA_STATE_S2_M:
+                    nicola_m_type();
+                    break;
+                case NICOLA_STATE_S3_O:
+                    // combo => S5
+                    nicola_int_state = NICOLA_STATE_S5_OM;
+                    break;
+                case NICOLA_STATE_S4_MO:
+                    {
+                        // combo => three key judge【処理A】
+                        uint32_t t1 = nicola_o_time - nicola_m_time;
+                        uint32_t t2 = curr_time - nicola_o_time;
+                        if(t1 >= t2) {
+                        // the leading M key is single, the O key in between is combo with current key
+                        nicola_m_type();
+                        nicola_int_state = NICOLA_STATE_S5_OM;
+                        } else {
+                        // the O key in between is combo with the leading M key
+                        nicola_om_type();
+                        nicola_int_state = NICOLA_STATE_S2_M;
+                        }
+                    }
                 break;
-            case NICOLA_STATE_S2_M:
-                nicola_m_type();
-                break;
-            case NICOLA_STATE_S3_O:
-                // combo => S5
-                nicola_int_state = NICOLA_STATE_S5_OM;
-                break;
-            case NICOLA_STATE_S4_MO:
-	            {
-	                // combo => three key judge【処理A】
-	                uint32_t t1 = nicola_o_time - nicola_m_time;
-	                uint32_t t2 = curr_time - nicola_o_time;
-	                if(t1 >= t2) {
-	                // the leading M key is single, the O key in between is combo with current key
-	                nicola_m_type();
-	                nicola_int_state = NICOLA_STATE_S5_OM;
-	                } else {
-	                // the O key in between is combo with the leading M key
-	                nicola_om_type();
-	                nicola_int_state = NICOLA_STATE_S2_M;
-	                }
-	            }
-            break;
-            case NICOLA_STATE_S5_OM:
-                nicola_om_type();
-                nicola_int_state = NICOLA_STATE_S2_M;
-                break;
+                case NICOLA_STATE_S5_OM:
+                    nicola_om_type();
+                    nicola_int_state = NICOLA_STATE_S2_M;
+                    break;
+            }
+            nicola_m_key = keycode;
+            nicola_m_time = curr_time;
+            //koseki(2024.4.25)
+            event_time = curr_time + TIMEOUT_THRESHOLD;
+            //**
+            cont_process = false;
         }
-        nicola_m_key = keycode;
-        nicola_m_time = curr_time;
-        //koseki(2024.4.25)
-        event_time = curr_time + TIMEOUT_THRESHOLD;
-        //**
-        cont_process = false;
-    } else if(keycode == NG_SHFTL || keycode == NG_SHFTR) {
-        // O key
-        switch(nicola_int_state) {
-            case NICOLA_STATE_S1_INIT:
-                nicola_int_state = NICOLA_STATE_S3_O;
-                break;
-            case NICOLA_STATE_S2_M:
-                // combo => S4
-                nicola_int_state = NICOLA_STATE_S4_MO;
-                break;
-            case NICOLA_STATE_S3_O:
-                nicola_o_type();
-                break;
-            case NICOLA_STATE_S4_MO:
-                nicola_om_type();
-                nicola_int_state = NICOLA_STATE_S3_O;
-                break;
-            case NICOLA_STATE_S5_OM:
-                {
-                    // combo => three key judge【処理B】
-                    uint32_t t1 = nicola_m_time - nicola_o_time;
-                    uint32_t t2 = curr_time - nicola_m_time;
-                    if(t1 >= t2) {
-                    // the leading O key is single, the M key in between is combo with current key
-                    nicola_o_type();
+        else if(keycode == NG_SHFTL || keycode == NG_SHFTR) {
+            // O key
+            switch(nicola_int_state) {
+                case NICOLA_STATE_S1_INIT:
+                    nicola_int_state = NICOLA_STATE_S3_O;
+                    break;
+                case NICOLA_STATE_S2_M:
+                    // combo => S4
                     nicola_int_state = NICOLA_STATE_S4_MO;
-                    } else {
-                    // the M key in between is combo with the leading O key
+                    break;
+                case NICOLA_STATE_S3_O:
+                    nicola_o_type();
+                    break;
+                case NICOLA_STATE_S4_MO:
                     nicola_om_type();
                     nicola_int_state = NICOLA_STATE_S3_O;
+                    break;
+                case NICOLA_STATE_S5_OM:
+                    {
+                        // combo => three key judge【処理B】
+                        uint32_t t1 = nicola_m_time - nicola_o_time;
+                        uint32_t t2 = curr_time - nicola_m_time;
+                        if(t1 >= t2) {
+                        // the leading O key is single, the M key in between is combo with current key
+                        nicola_o_type();
+                        nicola_int_state = NICOLA_STATE_S4_MO;
+                        } else {
+                        // the M key in between is combo with the leading O key
+                        nicola_om_type();
+                        nicola_int_state = NICOLA_STATE_S3_O;
+                        }
                     }
-                }
-                break;
-        }
-        nicola_o_key = keycode;
-        nicola_o_time = curr_time;
-        //koseki(2024.4.25)
-        event_time = curr_time + TIMEOUT_OYA_THRESHOLD;
-        //**
-        cont_process = false;
+                    break;
+            }
+            nicola_o_key = keycode;
+            nicola_o_time = curr_time;
+            //koseki(2024.4.25)
+            event_time = curr_time + TIMEOUT_OYA_THRESHOLD;
+            //**
+            cont_process = false;
 
-    } else {
-        // その他のキーが押された
-        switch(nicola_int_state) {
-            case NICOLA_STATE_S1_INIT:
-                break;
-            case NICOLA_STATE_S2_M:
-                nicola_m_type();
-                break;
-            case NICOLA_STATE_S3_O:
-                nicola_o_type();
-                break;
-            case NICOLA_STATE_S4_MO:
-                nicola_om_type();
-                break;
-            case NICOLA_STATE_S5_OM:
-                nicola_om_type();
-                break;
         }
-        nicola_int_state = NICOLA_STATE_S1_INIT;
-        key_process_guard = 0;
-        // continue processing current key, so this path returns true
+        else {
+            // その他のキーが押された
+            switch(nicola_int_state) {
+                case NICOLA_STATE_S1_INIT:
+                    break;
+                case NICOLA_STATE_S2_M:
+                    nicola_m_type();
+                    break;
+                case NICOLA_STATE_S3_O:
+                    nicola_o_type();
+                    break;
+                case NICOLA_STATE_S4_MO:
+                    nicola_om_type();
+                    break;
+                case NICOLA_STATE_S5_OM:
+                    nicola_om_type();
+                    break;
+            }
+            nicola_int_state = NICOLA_STATE_S1_INIT;
+            key_process_guard = 0;
+            // continue processing current key, so this path returns true
+        }
     }
-    } else { // key release
+    else { // key release
         if(NG_TOP <= keycode && keycode <= NG_BOTTOM) { // key off
             switch(nicola_int_state) {
                 case NICOLA_STATE_S1_INIT:
