@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 #include "keymap_japanese.h"
 #include "nicola.h" // NICOLA親指シフト
+#include "twpair_on_jis.h" // ANSI -> JISキー変換
 #include <timer.h>
 
 // IMEを監視する"observe_ime"を使用する場合、Num Lockでnicola on/offする。
@@ -14,7 +15,7 @@ enum keymap_layers {
     _QWERTY,
     _NICOLA,
     _FUNC
-  };
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -34,30 +35,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */
 
    [_QWERTY] = LAYOUT(
-       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,   KC_PGUP,  KC_PGDN,  KC_GRV,
-       KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_ENT,    KC_RBRC,  KC_BSLS,  KC_QUOT,
-       KC_LNG2,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
+       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   MO(_FUNC), KC_PGUP,  KC_PGDN,  KC_PSCR,
+       KC_LNG2,  KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
+       _______,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
        KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,             KC_LEFT,  KC_RIGHT, KC_DOWN,
        KC_LCTL,            KC_TAB,             KC_LNG1,                      KC_SPC,                       KC_SPC,
-                                                         KC_LALT,  MO(_FUNC),                                                                       KC_ENT
+                                                         _______,  _______,                                                                         KC_ENT
    ),
 
    [_NICOLA] = LAYOUT(
-       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  NG_EQL,   KC_BSPC,   KC_PGUP,  KC_PGDN,  _______,
-       KC_TAB,   NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_LBRC,  KC_ENT,    NG_RBRC,  NG_BSLS,  _______,
-       KC_LNG2,  NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
+       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,     NG_9,     NG_0,     NG_MINS,  NG_EQL,   MO(_FUNC), KC_PGUP,  KC_PGDN,  KC_PSCR,
+       KC_LNG2,  NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,     NG_O,     NG_P,     NG_LBRC,  KC_ENT,    KC_DEL,   KC_HOME,  KC_INS,
+       KC_F7,    NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,     NG_L,     NG_SCLN,  KC_BSPC,  KC_ESC,              KC_UP,
        KC_LSFT,  NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,  NG_DOT,   NG_SLSH,  KC_RSFT,             KC_LEFT,  KC_RIGHT, KC_DOWN,
        KC_LCTL,            KC_TAB,             NG_SHFTL,                     NG_SHFTR,                     KC_SPC,
-                                                         KC_LALT,  MO(_FUNC),                                                                       KC_ENT
+                                                         KC_F14,   KC_F15,                                                                          KC_ENT
    ),
 
    [_FUNC] = LAYOUT(
-       KC_F1,        KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_RALT,   _______,  _______,  _______,
-       _______,      _______,  _______,  _______,  _______,  _______,  _______,  KC_PSCR,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,
-       KC_CAPS_LOCK, _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_HOME,  KC_PGUP,  _______,  _______,  _______,             _______,
-       _______,      _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_PGDN,  _______,  _______,             _______,  _______,  _______,
-       KC_LGUI,                _______,            KC_BSPC,                      KC_DEL,                       _______,
-                                                             _______,  _______,                                                                         _______
+       KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_MINS,  KC_BSLS,  _______,   _______,  _______,  _______,
+   KC_CAPS_LOCK, KC_F11,   KC_F12,   _______,  _______,  _______,  _______,  KC_PSCR,  _______,  _______,  _______,  KC_LBRC,  _______,   _______,  _______,  _______,
+       _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_RBRC,  _______,  _______,             _______,
+       _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_GRV,   _______,             _______,  _______,  _______,
+       KC_LALT,            _______,            _______,                      _______,                      _______,
+                                                          _______,  _______,                                                                        _______
    )
 };
 
@@ -124,6 +125,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         a = process_nicola(keycode, record);
     }
     if (a == false) return false;
+
+    // OASYSキーをANSI配列にキー変換
+    // _FUNCレイヤーの場合は変換しない
+    bool b = true;
+    if (get_highest_layer(layer_state) != _FUNC) {
+        b = twpair_on_ansi(keycode, record);
+    }
+    if (b == false) return false;
 
     return true;
 }
