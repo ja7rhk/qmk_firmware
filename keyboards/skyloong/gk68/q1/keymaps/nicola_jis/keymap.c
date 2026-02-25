@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 
 #include "nicola.h" // NICOLA親指シフト
+#include "twpair_on_jis.h"  // us -> jis変換
 #include <timer.h>
 #include "rgb_config.h" // RGB LEDの定義
 
@@ -80,6 +81,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 void matrix_init_user(void) {
     // NICOLA親指シフト
     set_nicola(_NICOLA);
+    // NICOLA親指シフト
 }
 
 // Initialize the 13th LED
@@ -142,6 +144,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         a = process_nicola(keycode, record);
     }
     if (a == false) return false;
+
+    // ANSI配列の記号キーをJIS配列に変換
+    // _NICOLAレイヤーの場合は変換しない
+    bool b = true;
+    if (get_highest_layer(layer_state) != _NICOLA) {
+        b = twpair_on_jis(keycode, record);
+    }
+    if (b == false) return false;
 
     return true;
 }

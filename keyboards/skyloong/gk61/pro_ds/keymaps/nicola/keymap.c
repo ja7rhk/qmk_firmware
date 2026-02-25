@@ -66,7 +66,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void matrix_init_user(void) {
     // NICOLA親指シフト
     set_nicola(_NICOLA);
-    // NICOLA親指シフト
 }
 
 // Initialize the 13th LED
@@ -101,8 +100,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
         // 英数キー(Caps Lock)で nicola mode オフ
-        //case KC_CAPS_LOCK:
-        //case KC_F16:
         case KC_LNG2:
             if (record->event.pressed) {
                 send_string(SS_TAP(X_LNG2));
@@ -113,7 +110,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         // 英数モードのとき左親指キーで nicola mode オン
-        //case KC_F14:
         case KC_LNG1:
             if (record->event.pressed) {
                 send_string(SS_TAP(X_LNG1));

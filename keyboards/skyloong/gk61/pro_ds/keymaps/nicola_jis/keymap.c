@@ -35,16 +35,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
      * │Sft│ Z │ X │ C │ V │ B │ N │ M │ , │ . │ / │   |Sft|   │
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
-     * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Mo1│Alt│App│   │Ctl|
+     * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Alt│App│Ctl│   │Mo1|
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
 
     [_QWERTY] = LAYOUT_all(
-        KC_ESC,       KC_1,     KC_2,     KC_3,     KC_4,      KC_5,      KC_6,     KC_7,     KC_8,     KC_9,      KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
-        KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,      KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,      KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
-        KC_LNG2,      KC_A,     KC_S,     KC_D,     KC_F,      KC_G,      KC_H,     KC_J,     KC_K,     KC_L,      KC_SCLN,  KC_QUOT,            KC_ENT,
-        KC_LSFT,      KC_Z,     KC_X,     KC_C,     KC_V,      KC_B,      KC_N,     KC_M,     KC_COMM,  KC_DOT,    KC_SLSH,            KC_UP,
-        KC_LCTL,      KC_LGUI,  KC_LALT,            KC_LNG1,   _______,   KC_ESC,             KC_SPC,   MO(_FUNC), KC_LEFT,  KC_DOWN,            KC_RIGHT
+        KC_ESC,       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,     KC_8,     KC_9,      KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,
+        KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,       KC_Y,     KC_U,     KC_I,     KC_O,      KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLS,
+        KC_LNG2,      KC_A,     KC_S,     KC_D,     KC_F,     KC_G,       KC_H,     KC_J,     KC_K,     KC_L,      KC_SCLN,  KC_QUOT,            KC_ENT,
+        KC_LSFT,      KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,       KC_N,     KC_M,     KC_COMM,  KC_DOT,    KC_SLSH,            KC_UP,
+        KC_LCTL,      KC_LGUI,  KC_LALT,            KC_LNG1,  KC_SPC,                         KC_SPC,   MO(_FUNC), KC_LEFT,  KC_DOWN,            KC_RIGHT
     ),
 
     [_NICOLA] = LAYOUT_all(
@@ -52,28 +52,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,       NG_Q,     NG_W,     NG_E,     NG_R,      NG_T,      NG_Y,     NG_U,     NG_I,     NG_O,      NG_P,     NG_LBRC,  NG_RBRC,  NG_BSLS,
         KC_LNG2,      NG_A,     NG_S,     NG_D,     NG_F,      NG_G,      NG_H,     NG_J,     NG_K,     NG_L,      NG_SCLN,  KC_BSPC,            KC_ENT,
         KC_LSFT,      NG_Z,     NG_X,     NG_C,     NG_V,      NG_B,      NG_N,     NG_M,     NG_COMM,  NG_DOT,    NG_SLSH,            KC_UP,
-        KC_LCTL,      KC_LGUI,  KC_LALT,            NG_SHFTL,  _______,   KC_ESC,             NG_SHFTR, MO(_FUNC), KC_LEFT,  KC_DOWN,            KC_RIGHT
+        KC_LCTL,      KC_LGUI,  KC_LALT,            NG_SHFTL,  _______,                       NG_SHFTR, MO(_FUNC), KC_LEFT,  KC_DOWN,            KC_RIGHT
     ),
 
     [_FUNC] = LAYOUT_all(
         KC_GRV,       KC_F1,    KC_F2,    KC_F3,    KC_F4,     KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,     KC_F10,   KC_F11,   KC_F12,   KC_DEL,
-        _______,      _______,  _______,  _______,  _______,   _______,   _______,  KC_PSCR,  _______,  _______,   _______,  _______,  _______, _______,
-        KC_CAPS_LOCK, _______,  _______,  _______,  _______,   _______,   _______,  _______,  KC_HOME,  KC_PGUP,   _______,  _______,           _______,
+        _______,      _______,  _______,  _______,  _______,   _______,   _______,  KC_PSCR,  _______,  _______,   _______,  _______,  _______,  _______,
+        KC_CAPS_LOCK, _______,  _______,  _______,  _______,   _______,   _______,  _______,  KC_HOME,  KC_PGUP,   _______,  _______,            _______,
         _______,      _______,  _______,  _______,  _______,   _______,   _______,  _______,  _______,  KC_PGDN,   _______,            KC_RSFT,
-        KC_NUM,       _______,  _______,            KC_DEL,    _______,   _______,            _______,  _______,   KC_RALT,  KC_APP,             KC_RCTL
+        _______,      _______,  _______,            KC_DEL,    _______,                       KC_ESC,   _______,   KC_RALT,  KC_APP,             KC_RCTL
     )
 };
-
-#if defined(ENCODER_MAP_ENABLE)
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-//    [_QWERTY] = { ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN) },
-//    [_NICOLA] = { ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN) },
-//    [_FUNC] =   { ENCODER_CCW_CW(KC_PAGE_UP, KC_PAGE_DOWN) }
-    [_QWERTY] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
-    [_NICOLA] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
-    [_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
-};
-#endif
 
 void matrix_init_user(void) {
     // NICOLA親指シフト
@@ -115,6 +104,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LNG2:
             if (record->event.pressed) {
                 send_string(SS_TAP(X_LNG2));
+                //send_string(SS_LSFT(SS_TAP(X_CAPS_LOCK)));
             #ifndef USE_OBSERVE_IME
                 nicola_off();
             #endif
@@ -124,6 +114,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LNG1:
             if (record->event.pressed) {
                 send_string(SS_TAP(X_LNG1));
+                //send_string(SS_TAP(X_F14));
             #ifndef USE_OBSERVE_IME
                 nicola_on();
             #endif
@@ -171,10 +162,11 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             } else {
                 RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 255, 255, 0); // CapsLock : off
             }
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 0, 63, 0); // nicola : off
             break;
         case _NICOLA:
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 255, 255, 0); // nicola : on
-            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 255, 255, 0); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_CENTER_INDEX, 127, 127, 0); // nicola : on
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 255, 255, 0); // nicola : on
             break;
         case _FUNC:
@@ -184,6 +176,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_INDEX, 255, 255, 0); // CapsLock : off
             }
             RGB_MATRIX_INDICATOR_SET_COLOR(OYA_LEFT_INDEX, 255, 0, 0); // Left Oyayubi key : DEL
+            RGB_MATRIX_INDICATOR_SET_COLOR(OYA_RIGHT_INDEX, 0, 0, 255); // nicola : on
+            RGB_MATRIX_INDICATOR_SET_COLOR(FN_ESC_INDEX, 0, 0, 255); // function key : ESC
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_BS_INDEX, 255, 0, 0); // function key : DEL
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_PS_INDEX, 0, 0, 255); // function key : PS
             RGB_MATRIX_INDICATOR_SET_COLOR(FN_HOME_INDEX, 0, 0, 255); // function key : HOME

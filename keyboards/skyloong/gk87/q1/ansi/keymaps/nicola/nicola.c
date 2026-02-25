@@ -66,19 +66,9 @@ void timer_tick(uint32_t now) {
 }
 //**
 
-// if we have independent timeout routine, no need to check timeout on key press
-#ifdef TIMEOUT_INTERRUPT
-#define IF_TIMEOUT(x) if(0)
-#else
-#define IF_TIMEOUT(x) if(x)
-#endif
-
 // 親指シフトのレイヤー、シフトキーを設定
 void set_nicola(uint8_t layer) {
     nicola_layer = layer;
-#ifdef TIMEOUT_INTERRUPT
-    //keypress_timer_init(keypress_timer_expired);
-#endif
 }
 
 // 親指シフトをオンオフ
@@ -86,18 +76,12 @@ void nicola_on(void) {
     is_nicola = true;
     nicola_clear();
     layer_on(nicola_layer);
-
-    //   tap_code(KC_LANG1); // Mac
-    //   tap_code(KC_HENK); // Win
 }
 
 void nicola_off(void) {
     is_nicola = false;
     nicola_clear();
     layer_off(nicola_layer);
-
-    //   tap_code(KC_LANG2); // Mac
-    //   tap_code(KC_MHEN); // Win
 }
 
 // 親指シフトの状態

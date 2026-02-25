@@ -66,19 +66,9 @@ void timer_tick(uint32_t now) {
 }
 //**
 
-// if we have independent timeout routine, no need to check timeout on key press
-#ifdef TIMEOUT_INTERRUPT
-#define IF_TIMEOUT(x) if(0)
-#else
-#define IF_TIMEOUT(x) if(x)
-#endif
-
 // 親指シフトのレイヤー、シフトキーを設定
 void set_nicola(uint8_t layer) {
     nicola_layer = layer;
-#ifdef TIMEOUT_INTERRUPT
-    //keypress_timer_init(keypress_timer_expired);
-#endif
 }
 
 // 親指シフトをオンオフ
@@ -137,10 +127,7 @@ void nicola_mode(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-//#define SS_ALNUM(x) SS_TAP(X_CAPSLOCK) x SS_TAP(X_CAPSLOCK)
-
 void nicola_m_type(void) {
-    //if (n_modifier == 0) {
     if (n_modifier == 0) {
         switch(nicola_m_key) {
             case NG_1   : send_string("1" ); break;     // １
@@ -153,7 +140,7 @@ void nicola_m_type(void) {
             case NG_8   : send_string("8" ); break;     // ８
             case NG_9   : send_string("9" ); break;     // ９
             case NG_0   : send_string("0" ); break;     // ０
-            case NG_MINS: send_string("-" ); send_string(SS_TAP(X_F9)); break;      // ――
+            case NG_MINS: send_string("-" ); send_string(SS_TAP(X_F9)); break;      // ―
             case NG_EQL : send_string(SS_JP_EQL); send_string(SS_TAP(X_F9)); break; // ＝
 
             case NG_Q   : send_string("." ); break;     //ピリオドと句点は区別できない
@@ -198,7 +185,6 @@ void nicola_m_type(void) {
 
 void nicola_o_type(void) {
     if(nicola_o_key == NG_SHFTL) {
-        //send_string(SS_TAP(X_F14));         // 左親指キーはWin MS-IME で無変換キー
         send_string(SS_TAP(X_INT5));         // 左親指キーはWin MS-IME で無変換キー
     } else if(nicola_o_key == NG_SHFTR) {
         send_string(SS_TAP(X_SPACE));       // 右親指キーは単独打鍵で空白キー
@@ -209,7 +195,6 @@ void nicola_o_TO_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         send_string(SS_TAP(X_TAB));         // タイムアウト時はTAB(変換候補選択)キー
     } else if(nicola_o_key == NG_SHFTR) {
-        //send_string(SS_TAP(X_F15));         // タイムアウト時はF15(変換)キー
         send_string(SS_TAP(X_INT4));         // タイムアウト時は変換キー
     }
 }
