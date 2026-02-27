@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 
 #include "nicola.h" // NICOLA親指シフト
+#include "keymap_japanese.h"
 #include "twpair_on_jis.h"  // us -> jis変換
 #include <timer.h>
 #include "rgb_config.h" // RGB LEDの定義
@@ -52,8 +53,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 // Zoom-Up と Zoom-Down を割り当てる場合
-    [_QWERTY] = { ENCODER_CCW_CW((LCTL(KC_MINUS)), (LCTL(KC_EQUAL))) },
-    [_NICOLA] = { ENCODER_CCW_CW((LCTL(KC_MINUS)), (LCTL(KC_EQUAL))) },
+//    [_QWERTY] = { ENCODER_CCW_CW((LCTL(KC_MINS)), (LCTL(KC_EQL))) },
+//    [_NICOLA] = { ENCODER_CCW_CW((LCTL(KC_MINS)), (LCTL(KC_EQL))) },
+//    [_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
+    [_QWERTY] = { ENCODER_CCW_CW((LCTL(JP_MINS)), (LCTL(JP_EQL))) },
+    [_NICOLA] = { ENCODER_CCW_CW((LCTL(JP_MINS)), (LCTL(JP_EQL))) },
     [_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
 };
 #endif
