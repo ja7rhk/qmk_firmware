@@ -80,7 +80,6 @@ void keyboard_post_init_user(void) {
 }
 
 static bool is_capslock = false;    // CapsLockがオンかオフか
-#ifdef USE_OBSERVE_IME
 static bool is_numlock = false;     // NumLockがオンかオフか
 // This functions will be called when one of those 5 LEDs changes state.
 // Num Lock, Caps Lock, Scroll Lock, Compose, Kan
@@ -89,17 +88,18 @@ bool led_update_kb(led_t led_state) {
     bool res = led_update_user(led_state);
     if(res) {
         if (led_state.num_lock != is_numlock) {
+		#ifdef USE_OBSERVE_IME
             if (led_state.num_lock)
                 nicola_on();
             else
                 nicola_off();
+		#endif
             is_numlock = led_state.num_lock;
         }
         is_capslock = led_state.caps_lock;
     }
     return res;
 }
-#endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -110,17 +110,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 send_string(SS_TAP(X_LNG2));
             #ifndef USE_OBSERVE_IME
                 nicola_off();
-            #endif
+			#endif
             }
             return false;
         // 英数モードのとき左親指キーで nicola mode オン
         case KC_LNG1:
             if (record->event.pressed) {
                 send_string(SS_TAP(X_LNG1));
-                //send_string(SS_TAP(X_F14));
             #ifndef USE_OBSERVE_IME
                 nicola_on();
-            #endif
+			#endif
             }
             return false;
     }

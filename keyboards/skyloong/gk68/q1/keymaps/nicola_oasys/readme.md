@@ -1,13 +1,13 @@
 # SKYLOONG [GK68 Q1](https://skyloongtech.com/skyloong-gk68-qmkvia/ref/13/) 用 Nicola配列キーマップ
 キーボード側で親指シフトをローマ字(※英字キー入力から仮名への変換方式)出力するためのキーマップです。  
-物理的なキー配置はANSI配列で、Windowsの設定では日本語/日本語キーボード(106/109キー)配列で使用します。  
+物理的なキー配置は変速JIS配列で、Windowsの設定では日本語/日本語キーボード(106/109キー)配列で使用します。  
 「」や『』・などは直接出力できませんから、MS-IMEなどの変換機能で確定します。
 
 * 左親指キー : 単押し → 無変換キー 、長押し → TAB(変換候補)
 * 右親指キー : 単押し → Spaceキー 、長押し → 変換キー
 
 ## 配列
-![](gk68_q1_nicola_layout.png)
+![](gk68_nicola_oasys_layout.png)
 
 ## Nicolaモードの制御
 本キーボードはhoboNicolaで使用している"observe_ime"を使うことを想定しています。 

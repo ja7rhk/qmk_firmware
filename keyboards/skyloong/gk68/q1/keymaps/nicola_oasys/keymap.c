@@ -4,10 +4,9 @@
 #include QMK_KEYBOARD_H
 
 #include "nicola.h" // NICOLA親指シフト
-#include "keymap_japanese.h"
-#include "twpair_on_jis.h"  // us -> jis変換
 #include <timer.h>
 #include "rgb_config.h" // RGB LEDの定義
+#include "keymap_japanese.h"
 
 // IMEを監視する"observe_ime"を使用する場合、Num Lockでnicola on/offする。
 // キーボード単体でnicola on/offを制御する場合はコメントアウトする。
@@ -28,31 +27,31 @@ enum keymap_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      /*
      * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
-     * │Esc│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ = │Bsp│Hom│
+     * │Esc│ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ ^ │Bsp│Hom│
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
      * │Tab│ Q │ W │ E | R │ T │ Y │ U │ I │ O │ P │ [ │ ] │ \ │Del│
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
-     * │Cap│ A │ S │ D │ F │ G │ H │ J │ K │ L │ ; │ ' │   |Ent│pUp│
+     * │Cap│ A │ S │ D │ F │ G │ H │ J │ K │ L │ ; │ : │   |Ent│ @ │
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
-     * │Sft│ Z │ X │ C │ V │ B │ N │ M │ , │ . │ / │   |Sft| ↑ │pDn│
+     * │Sft│ Z │ X │ C │ V │ B │ N │ M │ , │ . │ / │   |Sft| ↑ │ \ │
      * ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
      * │Ctl│GUI│Alt│   │Spc│Mut│   │   |Spc|Alt│Mo1│App│ ← | ↓ │ → │
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
 
     [_QWERTY] = LAYOUT_all(
-        KC_ESC,       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,      KC_9,       KC_0,      KC_MINS,  KC_EQL,    KC_BSPC,    LCTL(KC_0),
-        KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,      KC_O,       KC_P,      KC_LBRC,  KC_RBRC,   KC_BSLS,    KC_DEL,
-        KC_LNG2,      KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,      KC_L,       KC_SCLN,   KC_QUOT,             KC_ENT,     KC_PGUP,
-        KC_LSFT,      KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,   KC_DOT,     KC_SLSH,             KC_RSFT,   KC_UP,      KC_PGDN,
+        KC_ESC,       KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,      KC_9,       KC_0,      JP_MINS,  JP_CIRC,   KC_BSPC,    KC_ESC,
+        KC_TAB,       KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,      KC_O,       KC_P,      JP_LBRC,  JP_RBRC,   JP_YEN,     KC_DEL,
+        KC_LNG2,      KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,      KC_L,       JP_SCLN,   JP_COLN,             KC_ENT,     JP_AT,
+        KC_LSFT,      KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     JP_COMM,   JP_DOT,     JP_SLSH,             KC_RSFT,   KC_UP,      JP_BSLS,
         KC_LCTL,      KC_LGUI,  KC_LALT,            KC_LNG1,            KC_SPC,             KC_SPC,    KC_RALT,    MO(_FUNC), KC_RCTL,  KC_LEFT,   KC_DOWN,    KC_RIGHT
     ),
 
     [_NICOLA] = LAYOUT_all(
-        KC_ESC,       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,      NG_9,       NG_0,      NG_MINS,  NG_EQL,    KC_BSPC,    LCTL(KC_0),
+        KC_ESC,       NG_1,     NG_2,     NG_3,     NG_4,     NG_5,     NG_6,     NG_7,     NG_8,      NG_9,       NG_0,      NG_MINS,  NG_CIRC,   KC_BSPC,    KC_ESC,
         KC_TAB,       NG_Q,     NG_W,     NG_E,     NG_R,     NG_T,     NG_Y,     NG_U,     NG_I,      NG_O,       NG_P,      NG_LBRC,  NG_RBRC,   NG_BSLS,    KC_DEL,
-        KC_LNG2,      NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,      NG_L,       NG_SCLN,   KC_BSPC,             KC_ENT,     KC_PGUP,
-        KC_LSFT,      NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,   NG_DOT,     NG_SLSH,             KC_RSFT,   KC_UP,      KC_PGDN,
+        KC_LNG2,      NG_A,     NG_S,     NG_D,     NG_F,     NG_G,     NG_H,     NG_J,     NG_K,      NG_L,       NG_SCLN,   KC_BSPC,             KC_ENT,     _______,
+        KC_LSFT,      NG_Z,     NG_X,     NG_C,     NG_V,     NG_B,     NG_N,     NG_M,     NG_COMM,   NG_DOT,     NG_SLSH,             KC_RSFT,   KC_UP,      _______,
         KC_LCTL,      KC_LGUI,  KC_LALT,            NG_SHFTL,           _______,            NG_SHFTR,  KC_RALT,    MO(_FUNC), KC_RCTL,  KC_LEFT,   KC_DOWN,    KC_RIGHT
     ),
 
@@ -63,25 +62,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,      _______,  _______,  _______,  _______,  _______,  _______,  KC_DEL ,  KC_END ,   KC_PGDN,    _______,              _______,  _______,    KC_END,
         KC_NUM,       _______,  _______,            KC_DEL,             _______,            KC_ESC,    _______,    _______,   KC_APP,    _______,  _______,    _______
     )
+
 };
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 // Backspace と Delete を割り当てる場合
-//  [_QWERTY] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
-//  [_NICOLA] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
-//  [_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
-// Zoom-Up と Zoom-Down を割り当てる場合
-	[_QWERTY] = { ENCODER_CCW_CW((LCTL(JP_MINS)), (LCTL(JP_EQL))) },
-	[_NICOLA] = { ENCODER_CCW_CW((LCTL(JP_MINS)), (LCTL(JP_EQL))) },
-	[_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
+    [_QWERTY] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
+    [_NICOLA] = { ENCODER_CCW_CW(KC_BSPC, KC_DEL) },
+    [_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
+    // Zoom-Up と Zoom-Down を割り当てる場合
+    //[_QWERTY] = { ENCODER_CCW_CW((LCTL(KC_MINUS)), (LCTL(KC_EQUAL))) },
+    //[_NICOLA] = { ENCODER_CCW_CW((LCTL(KC_MINUS)), (LCTL(KC_EQUAL))) },
+    //[_FUNC] =   { ENCODER_CCW_CW(_______, _______) }
 };
 #endif
 
 void matrix_init_user(void) {
     // NICOLA親指シフト
     set_nicola(_NICOLA);
-    // NICOLA親指シフト
 }
 
 // Initialize the 13th LED
@@ -144,14 +143,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         a = process_nicola(keycode, record);
     }
     if (a == false) return false;
-
-    // ANSI配列の記号キーをJIS配列に変換
-    // _NICOLAレイヤーの場合は変換しない
-    bool b = true;
-    if (get_highest_layer(layer_state) != _NICOLA) {
-        b = twpair_on_jis(keycode, record);
-    }
-    if (b == false) return false;
 
     return true;
 }
