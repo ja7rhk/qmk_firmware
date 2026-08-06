@@ -142,8 +142,8 @@ void nicola_m_type(void) {
             case NG_8   : send_string("8");  break;     // ８
             case NG_9   : send_string("9");  break;     // ９
             case NG_0   : send_string("0");  break;     // ０
-            case NG_MINS: send_string("-" ); send_string(SS_TAP(X_F9)); break;      // ―
-            case NG_CIRC: send_string(SS_JP_CIRC); send_string(SS_TAP(X_F9)); break; // ^
+            case NG_MINS: send_string("-");  break;     // ―
+            case NG_CIRC:                    break;     //
 
             case NG_Q   : send_string(".");  break;     //ピリオドと句点は区別できない
             case NG_W   : send_string("ka"); break;
@@ -157,7 +157,7 @@ void nicola_m_type(void) {
             case NG_P   : send_string(",");  break;     // カンマと読点も区別できない
             case NG_LBRC: send_string(SS_JP_LBRC);  break;  // [
             case NG_RBRC: send_string(SS_JP_RBRC);  break;  // ]
-            case NG_BSLS: send_string(SS_JP_BSLS); break;  // ￥
+            case NG_BSLS: send_string(SS_JP_BSLS);  break;  // ￥
 
             case NG_A   : send_string("u" ); break;
             case NG_S   : send_string("si"); break;
@@ -210,13 +210,13 @@ void nicola_om_type(void) {
             case NG_3   : send_string(SS_JP_TILD); send_string(SS_TAP(X_F9)); break;  // ～
             case NG_4   : send_string(SS_JP_LBRC); break;   // 「
             case NG_5   : send_string(SS_JP_RBRC); break;   // 」
-            case NG_6   : send_string(SS_JP_LCBR); break;   // 『
-            case NG_7   : send_string(SS_JP_RCBR); break;   // 』
+            case NG_6   : send_string(SS_JP_LBRC); break;   // "［"は"「"と区別できない
+            case NG_7   : send_string(SS_JP_RBRC); break;   // "］"は"」"と区別できない
             case NG_8   : send_string(SS_JP_LPRN); break;   // （
             case NG_9   : send_string(SS_JP_RPRN); break;   // ）
-            case NG_0   :                        ; break;
-            case NG_MINS: send_string(SS_JP_UNDS); break;   // ＿
-            case NG_CIRC: send_string(SS_JP_PLUS); break;   // ＋
+            case NG_0   : send_string(SS_JP_LCBR); break;   // 『
+            case NG_MINS: send_string(SS_JP_RCBR); break;   // 』
+            case NG_CIRC:                          break;   //
 
             case NG_Q   : send_string("xa"); break;
             case NG_W   : send_string("e" ); break;
@@ -230,7 +230,7 @@ void nicola_om_type(void) {
             case NG_P   : send_string("pi"); break;
             case NG_LBRC: send_string(SS_JP_LCBR); break;   // ｛
             case NG_RBRC: send_string(SS_JP_RCBR); break;   // ｝
-            case NG_BSLS: send_string(SS_JP_PIPE); break;   // ｜
+            case NG_BSLS:                          break;   //
 
             case NG_A   : send_string("wo"); break;
             case NG_S   : send_string("a" ); break;
@@ -261,13 +261,13 @@ void nicola_om_type(void) {
             case NG_3   : send_string(SS_JP_TILD); send_string(SS_TAP(X_F9)); break;  // ～
             case NG_4   : send_string(SS_JP_LBRC); break;   // 「
             case NG_5   : send_string(SS_JP_RBRC); break;   // 」
-            case NG_6   : send_string(SS_JP_LCBR); break;   // 『
-            case NG_7   : send_string(SS_JP_RCBR); break;   // 』
+            case NG_6   : send_string(SS_JP_LBRC); break;   // "［"は"「"と区別できない
+            case NG_7   : send_string(SS_JP_RBRC); break;   // "］"は"」"と区別できない
             case NG_8   : send_string(SS_JP_LPRN); break;   // （
             case NG_9   : send_string(SS_JP_RPRN); break;   // ）
-            case NG_0   :                        ; break;
-            case NG_MINS: send_string(SS_JP_UNDS); break;   // ＿
-            case NG_CIRC: send_string(SS_JP_PLUS); break;   // ＋
+            case NG_0   : send_string(SS_JP_LCBR); break;   // 『
+            case NG_MINS: send_string(SS_JP_RCBR); break;   // 』
+            case NG_CIRC:                          break;   //
 
             case NG_Q   :                    break;
             case NG_W   : send_string("ga"); break;
