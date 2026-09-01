@@ -204,9 +204,9 @@ void nicola_o_TO_type(void) {
 void nicola_om_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("?"); send_string(SS_TAP(X_F9)); break;      // ？
-            case NG_2   : send_string("/"); send_string(SS_TAP(X_F9)); break;      // ／
-            case NG_3   : send_string("~"); send_string(SS_TAP(X_F9)); break;      // ～
+            case NG_1   : send_string("?"); break;      // ？
+            case NG_2   : send_string("/"); break;      // ／
+            case NG_3   : send_string("~"); break;      // ～
             case NG_4   : send_string("["); break;      // 「
             case NG_5   : send_string("]"); break;      // 」
             case NG_6   : send_string("{"); break;      // 『

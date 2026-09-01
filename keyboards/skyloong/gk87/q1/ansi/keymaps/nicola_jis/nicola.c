@@ -143,8 +143,8 @@ void nicola_m_type(void) {
             case NG_8   : send_string("8" ); break;     // ８
             case NG_9   : send_string("9" ); break;     // ９
             case NG_0   : send_string("0" ); break;     // ０
-            case NG_MINS: send_string("-" ); send_string(SS_TAP(X_F9)); break;      // ―
-            case NG_EQL : send_string(SS_JP_EQL); send_string(SS_TAP(X_F9)); break; // ＝
+            case NG_MINS: send_string("-" ); break;      // ―
+            case NG_EQL : send_string(SS_JP_EQL); break; // ＝
 
             case NG_Q   : send_string("." ); break;     //ピリオドと句点は区別できない
             case NG_W   : send_string("ka"); break;
@@ -170,7 +170,7 @@ void nicola_m_type(void) {
             case NG_K   : send_string("ki"); break;
             case NG_L   : send_string("i" ); break;
             case NG_SCLN: send_string("nn"); break;
-            case NG_QUOT:                  ; break;
+            case NG_QUOT:                    break;
 
             case NG_Z   : send_string("." ); break;     //ピリオドと句点は区別できない
             case NG_X   : send_string("hi"); break;
@@ -207,9 +207,9 @@ void nicola_o_TO_type(void) {
 void nicola_om_type(void) {
     if(nicola_o_key == NG_SHFTL) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("?"); send_string(SS_TAP(X_F9)); break;      // ？
-            case NG_2   : send_string("/"); send_string(SS_TAP(X_F9)); break;      // ／
-            case NG_3   : send_string(SS_JP_TILD); send_string(SS_TAP(X_F9)); break;  // ～
+            case NG_1   : send_string("?"); break;      // ？
+            case NG_2   : send_string("/"); break;      // ／
+            case NG_3   : send_string(SS_JP_TILD); break;  // ～
             case NG_4   : send_string(SS_JP_LBRC); break;   // 「
             case NG_5   : send_string(SS_JP_RBRC); break;   // 」
             case NG_6   : send_string(SS_JP_LCBR); break;   // 『
@@ -259,9 +259,9 @@ void nicola_om_type(void) {
         }
     } else if(nicola_o_key == NG_SHFTR) {
         switch(nicola_m_key) {
-            case NG_1   : send_string("?"); send_string(SS_TAP(X_F9)); break;      // ？
-            case NG_2   : send_string("/"); send_string(SS_TAP(X_F9)); break;      // ／
-            case NG_3   : send_string(SS_JP_TILD); send_string(SS_TAP(X_F9)); break;  // ～
+            case NG_1   : send_string("?"); break;      // ？
+            case NG_2   : send_string("/"); break;      // ／
+            case NG_3   : send_string(SS_JP_TILD); break;  // ～
             case NG_4   : send_string(SS_JP_LBRC); break;   // 「
             case NG_5   : send_string(SS_JP_RBRC); break;   // 」
             case NG_6   : send_string(SS_JP_LCBR); break;   // 『
